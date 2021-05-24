@@ -11,8 +11,9 @@ export default function App() {
         <Router>
             <Switch>
                 <Route path="/">
+                    <p>Hello world</p>
                 </Route>
-                
+
                 <Route path="/sign-up">
                 </Route>
 
