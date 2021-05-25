@@ -5,13 +5,18 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import "./styles.css";
+import Post from "./components/Post/Post";
+import CreatePost from "./components/Post/CreatePost";
+
 
 export default function App() {
     return (
         <Router>
             <Switch>
                 <Route path="/">
-                    <p>Hello world</p>
+                    <CreatePost />
+                    <Post />
                 </Route>
 
                 <Route path="/sign-up">
@@ -35,3 +40,4 @@ export default function App() {
         </Router>
     );
 }
+
