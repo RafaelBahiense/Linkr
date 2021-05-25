@@ -67,9 +67,11 @@ const CreatePostContainer = styled.div`
 
     img{
         display: none;
+        margin-right: 18px;
     }
 
     div{
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
