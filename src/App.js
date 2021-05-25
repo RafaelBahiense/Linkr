@@ -9,7 +9,7 @@ import "./styles/global.css";
 import Post from "./components/Post/Post";
 import CreatePost from "./components/Post/CreatePost";
 import SignUp from "./components/SignUp";
-import Timeline from "./components/Timeline/Timeline.js";
+import Timeline from "./components/Timeline/TimelineLayout.js";
 
 
 export default function App() {
