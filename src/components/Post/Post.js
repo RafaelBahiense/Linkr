@@ -3,6 +3,7 @@ import Avatar from '../general/Avatar';
 import Likes from './Likes';
 import PostLink from './PostLink';
 import { TiPencil, TiTrash } from "react-icons/ti";
+import { Link } from 'react-router-dom';
 
 
 export default function Post(props) {
@@ -17,7 +18,7 @@ export default function Post(props) {
             </div>
             <PostContentContainer>
                 <PostUserName>
-                    <span>{user.username}</span>
+                    <Link to={`/user/${props.user.id}`}>{user.username}</Link>
                     <div>
                         <TiPencil />
                         <TiTrash />
