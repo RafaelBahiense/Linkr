@@ -14,7 +14,7 @@ export default function CreatePost() {
         setPublishing(true);
 
         const config = {
-            'Authorization': `Bearer userToken`
+            'Authorization': `Bearer dda21e2d-9bac-4add-995f-33de3d6e55f8`
         }
 
         const data = {
