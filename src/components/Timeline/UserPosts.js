@@ -16,7 +16,7 @@ export default function Timeline (props) {
             }
         }
 
-        const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts", config)
+        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${props.userid}/posts,`, config)
 
         request.then((response) => {
             setPosts([...response.data.posts]);
@@ -27,6 +27,6 @@ export default function Timeline (props) {
     },[]);
 
     return (
-        <TimelineLayout posts={posts}/>
+        <TimelineLayout posts={posts} title={props.userName}/>
     );
 }
