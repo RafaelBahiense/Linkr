@@ -1,16 +1,54 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Avatar from '../general/Avatar';
 
 export default function CreatePost() {
+
+    const [text, setText] = useState("");
+    const [url, setUrl] = useState("");
+    const [ publishing, setPublishing ] = useState(false);
+
+    function createPost(e) {
+        e.preventDefault();
+        setPublishing(true);
+
+        const config = {
+            'Authorization': `Bearer userToken`
+        }
+
+        const data = {
+            text,
+            url
+        }
+
+        console.log(data);
+        const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts`, data, config);
+        
+        response.then( () => {
+            setPublishing(false);
+            setText("");
+            setUrl("");
+
+            // ATT POSTS LIST!! <<<<<<<
+            console.log("Atualizando lista de posts...");
+        });
+
+        response.catch( () => {
+            setPublishing(false);
+            alert("Houve um erro ao publicar seu link");
+        })
+    }
+
     return (
         <CreatePostContainer>
             <Avatar width="50px" />
             <div>
                 <p>O que você tem pra favoritar hoje?</p>
-                <form>
-                    <input type="url" placeholder="http:// ..."></input>
-                    <input type="text" placeholder="Muito irado esse link falando de #javascript"></input>
-                    <button type="submit">Publicar</button>
+                <form onSubmit={createPost}>
+                    <input disabled={publishing} required value={url} onChange={(e) => setUrl(e.target.value)} type="url" placeholder="http:// ..."></input>
+                    <input disabled={publishing} value={text} onChange={(e) => setText(e.target.value)} type="text" placeholder="Muito irado esse link falando de #javascript"></input>
+                    <button disabled={publishing} type="submit" > {publishing ? "Publicando" :"Publicar"} </button>
                 </form>
             </div>
         </CreatePostContainer>
@@ -85,6 +123,7 @@ const CreatePostContainer = styled.div`
                 color: #FFFFFF;
 
                 align-self: flex-end;
+                cursor: pointer;
             }
         }
     }
