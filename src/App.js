@@ -12,6 +12,7 @@ import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import UserContext from "./contexts/UserContext";
 import Timeline from "./components/Timeline/Timeline.js";
+import Timeline from "./components/Timeline/TimelineLayout.js";
 
 
 export default function App() {
