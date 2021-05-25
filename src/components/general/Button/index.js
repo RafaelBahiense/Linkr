@@ -1,5 +1,4 @@
 import React from 'react';
-import Loader from 'react-loader-spinner';
 import StyledButton from './styles';
 
 const Button = ({
@@ -13,6 +12,8 @@ const Button = ({
 	children,
 	onClick,
 	fColor,
+	fSize,
+	fWeight,
 	border,
 }) => {
 	return (
@@ -23,12 +24,14 @@ const Button = ({
 			color={color}
 			fColor={fColor}
 			font={font}
+			fWeight={fWeight}
+			fSize={fSize}
 			radius={radius}
 			border={border}
 			onClick={onClick}
 		>
 			{disabled ? (
-				<Loader type="ThreeDots" color="#fff" height={45} width={60} />
+				"disabled"
 			) : (
 				text || children
 			)}

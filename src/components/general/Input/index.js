@@ -13,6 +13,9 @@ const Input = ({
 	radius,
 	onClick,
 	fColor,
+	font,
+	fSize,
+	fWeight,
 	border,
 	padding,
 	cursor,
@@ -24,6 +27,9 @@ const Input = ({
 			height={height}
 			color={color}
 			fColor={fColor}
+			fWeight={fWeight}
+			font={font}
+			fSize={fSize}
 			onClick={onClick}
 			radius={radius}
 			border={border}

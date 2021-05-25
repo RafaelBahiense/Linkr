@@ -2,13 +2,13 @@ import React from "react";
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link
+    Route
 } from "react-router-dom";
 import "./styles/reset.css";
 import "./styles/global.css";
 import Post from "./components/Post/Post";
 import CreatePost from "./components/Post/CreatePost";
+import SignUp from "./components/SignUp";
 
 
 export default function App() {
@@ -21,7 +21,7 @@ export default function App() {
                 </Route>
 
                 <Route path="/sign-up" exact>
-                    
+                    <SignUp />
                 </Route>
 
                 <Route path="/hashtag/:hashtag" exact>

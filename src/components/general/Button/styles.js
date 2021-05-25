@@ -14,7 +14,9 @@ const StyledButton = styled.button`
     border: ${props => props.border ? props.border : 'none'};
     background-color: ${props => props.color ? props.color : '#52B6FF'};
     color: ${props => props.fColor ? props.fColor : 'white'};
-    font-size: ${props => props.font ? props.font : 21}px;
+    font-family: ${props => props.font ? props.font : 'inherit'};
+    font-weight: ${props => props.fWeight ? props.fWeight : '400'};
+    font-size: ${props => props.fSize ? props.fSize : 21}px;
 
     &:disabled {
         opacity: 70%;

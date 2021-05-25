@@ -15,6 +15,7 @@ const StyledContainer = styled.div`
 	padding: ${(props) => (props.padding ? props.padding : '0')};
 	margin: ${(props) => (props.margin ? props.margin : '0')};
 	cursor: ${(props) => (props.cursor ? props.cursor : 'auto')};
+	font-family: ${(props) => (props.font ? props.font : 'inherit')};
 `;
 
 export default StyledContainer;
