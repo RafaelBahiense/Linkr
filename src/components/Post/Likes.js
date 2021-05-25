@@ -12,7 +12,9 @@ export default function Likes(props) {
     const [likesQuantity, setLikesQuantity] = useState(0);
 
     const config = {
-        'Authorization': `Bearer dda21e2d-9bac-4add-995f-33de3d6e55f8`
+        headers: {
+            'Authorization': `Bearer 2d039c10-181e-4913-b81a-c6e9eeb7842d`
+        }
     }
 
     function getLikedNames(array) {

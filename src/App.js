@@ -30,7 +30,7 @@ export default function App() {
 
                 <Route path="/timeline" exact>
                     <CreatePost />
-                    <Post />
+                    
                 </Route>
 
                 <Route path="/my-likes" exact>

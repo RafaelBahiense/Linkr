@@ -6,35 +6,37 @@ import Avatar from '../general/Avatar';
 export default function CreatePost() {
 
     const [text, setText] = useState("");
-    const [url, setUrl] = useState("");
-    const [ publishing, setPublishing ] = useState(false);
+    const [link, setLink] = useState("");
+    const [publishing, setPublishing] = useState(false);
 
     function createPost(e) {
         e.preventDefault();
         setPublishing(true);
 
         const config = {
-            'Authorization': `Bearer dda21e2d-9bac-4add-995f-33de3d6e55f8`
+            headers: {
+                'Authorization': `Bearer 2d039c10-181e-4913-b81a-c6e9eeb7842d`
+            }
         }
 
         const data = {
-            text,
-            url
+            "text": text,
+            "link": link
         }
 
         console.log(data);
         const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts`, data, config);
-        
-        response.then( () => {
+
+        response.then(() => {
             setPublishing(false);
             setText("");
-            setUrl("");
+            setLink("");
 
             // ATT POSTS LIST!! <<<<<<<
             console.log("Atualizando lista de posts...");
         });
 
-        response.catch( () => {
+        response.catch(() => {
             setPublishing(false);
             alert("Houve um erro ao publicar seu link");
         })
@@ -46,9 +48,9 @@ export default function CreatePost() {
             <div>
                 <p>O que você tem pra favoritar hoje?</p>
                 <form onSubmit={createPost}>
-                    <input disabled={publishing} required value={url} onChange={(e) => setUrl(e.target.value)} type="url" placeholder="http:// ..."></input>
+                    <input disabled={publishing} required value={link} onChange={(e) => setLink(e.target.value)} type="url" placeholder="http:// ..."></input>
                     <input disabled={publishing} value={text} onChange={(e) => setText(e.target.value)} type="text" placeholder="Muito irado esse link falando de #javascript"></input>
-                    <button disabled={publishing} type="submit" > {publishing ? "Publicando" :"Publicar"} </button>
+                    <button disabled={publishing} type="submit" > {publishing ? "Publicando" : "Publicar"} </button>
                 </form>
             </div>
         </CreatePostContainer>
