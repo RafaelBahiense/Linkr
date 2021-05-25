@@ -1,22 +1,30 @@
 import styled from 'styled-components';
 import Avatar from '../general/Avatar';
 import Likes from './Likes';
+import PostLink from './PostLink';
+import { TiPencil, TiTrash } from "react-icons/ti";
 
 
-export default function Post() {
+export default function Post(props) {
 
-    const windowSize = window.visualViewport.width;
+    const { text, user } = props;
     
     return (
         <PostContainer>
             <div>
-                <Avatar width={windowSize < 750 ? "40px" : "50px"}/>
-                <Likes svgSize={windowSize < 750 ? "17px" : "20px"} textSize={windowSize < 750 ? "9px" : "11px"}/>
+                <Avatar />
+                <Likes {...props}/>
             </div>
             <PostContentContainer>
-                <PostUserName>Juvenal Juvêncio</PostUserName>
-                <PostContent>Muito maneiro esse tutorial de Material UI com React, deem uma olhada! <strong>#react #material</strong></PostContent>
-                <PostLink> Oie </PostLink>
+                <PostUserName>
+                    <span>{user.username}</span>
+                    <div>
+                        <TiPencil />
+                        <TiTrash />
+                    </div>
+                </PostUserName>
+                <PostContent>{text}</PostContent>
+                <PostLink {...props} />
             </PostContentContainer>
         </PostContainer>
     );
@@ -31,12 +39,6 @@ const PostContainer = styled.div`
     padding: 9px 18px 15px 15px;
     margin: 16px 0;
 
-    div{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
     @media (min-width: 750px){
         width: 611px;
         height: 276px;
@@ -44,16 +46,38 @@ const PostContainer = styled.div`
     }
 `;
 
-const PostUserName = styled.p`
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 20px;
+const PostUserName = styled.div`
+
+    span{
+        font-weight: 400;
+        font-size: 17px;
+        line-height: 20px;
+    }
+
+    div{
+        display: none;
+        cursor: pointer;
+        font-size: 20px;
+        *{
+            margin-left: 12px;
+        }
+    }
+
     color: #FFFFFF;
-    align-self: flex-start;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     @media (min-width: 750px){
-        font-size: 19px;
-        line-height: 23px;
+        span{
+            font-size: 19px;
+            line-height: 23px;
+        }
+
+        div{
+            display: block;
+        }
     }
 `
 
@@ -73,22 +97,9 @@ const PostContent = styled.p`
         line-height: 20px;
     }
 `
-
-const PostLink = styled.div`
-    width: 278px;
-    height: 115px;
-
-    border: 1px solid #4D4D4D;
-    border-radius: 11px;
-
-    @media (min-width: 750px){
-        width: 503px;
-        height: 155px;
-    }
-`
 const PostContentContainer = styled.div`
-    width: 288px;
-
+    width: 100%;
+    margin-left: 14px;
     @media (min-width: 750px){
         width: 502px;
     }

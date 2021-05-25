@@ -16,8 +16,6 @@ export default function App() {
         <Router>
             <Switch>
                 <Route path="/" exact>
-                    <CreatePost />
-                    <Post />
                 </Route>
 
                 <Route path="/sign-up" exact>
@@ -31,6 +29,8 @@ export default function App() {
                 </Route>
 
                 <Route path="/timeline" exact>
+                    <CreatePost />
+                    <Post />
                 </Route>
 
                 <Route path="/my-likes" exact>
