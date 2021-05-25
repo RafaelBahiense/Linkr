@@ -9,20 +9,26 @@ import { Link } from 'react-router-dom';
 export default function Post(props) {
 
     const { text, user } = props;
-    
+    const myPost = (user.id === "context.user.id");
+
     return (
         <PostContainer>
             <div>
                 <Avatar />
-                <Likes {...props}/>
+                <Likes {...props} />
             </div>
             <PostContentContainer>
                 <PostUserName>
                     <Link to={`/user/${props.user.id}`}>{user.username}</Link>
-                    <div>
-                        <TiPencil />
-                        <TiTrash />
-                    </div>
+                    {myPost
+                        ?
+                        <div>
+                            <TiPencil />
+                            <TiTrash />
+                        </div>
+                        :
+                        <div></div>
+                    }
                 </PostUserName>
                 <PostContent>{text}</PostContent>
                 <PostLink {...props} />
