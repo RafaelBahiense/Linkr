@@ -14,4 +14,12 @@ a {
 body {
     background-color: #333333;
     user-select: none;
+    min-height: 100vh;
+    position: relative;
+}
+
+.root {
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
