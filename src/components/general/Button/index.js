@@ -1,4 +1,5 @@
 import React from 'react';
+import Loader from 'react-loader-spinner';
 import StyledButton from './styles';
 
 const Button = ({
@@ -31,7 +32,7 @@ const Button = ({
 			onClick={onClick}
 		>
 			{disabled ? (
-				"disabled"
+				<Loader type="ThreeDots" color="#fff" height={45} width={60} />
 			) : (
 				text || children
 			)}
