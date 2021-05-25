@@ -15,6 +15,8 @@ export default function App() {
         <Router>
             <Switch>
                 <Route path="/">
+                    <CreatePost />
+                    <Post />
                 </Route>
 
                 <Route path="/sign-up">
