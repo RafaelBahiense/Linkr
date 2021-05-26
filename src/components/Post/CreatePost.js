@@ -1,16 +1,52 @@
+import axios from 'axios';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Avatar from '../general/Avatar';
 
 export default function CreatePost() {
+
+    const [text, setText] = useState("");
+    const [link, setLink] = useState("");
+    const [publishing, setPublishing] = useState(false);
+
+    function createPost(e) {
+        e.preventDefault();
+        setPublishing(true);
+
+        const config = {
+            headers: {
+                'Authorization': `Bearer 2d039c10-181e-4913-b81a-c6e9eeb7842d`
+            }
+        }
+
+        const data = {
+            "text": text,
+            "link": link
+        }
+
+        const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts`, data, config);
+
+        response.then(() => {
+            setPublishing(false);
+            setText("");
+            setLink("");
+        });
+
+        response.catch(() => {
+            setPublishing(false);
+            alert("Houve um erro ao publicar seu link");
+        })
+    }
+
     return (
         <CreatePostContainer>
             <Avatar width="50px" />
             <div>
                 <p>O que você tem pra favoritar hoje?</p>
-                <form>
-                    <input type="url" placeholder="http:// ..."></input>
-                    <input type="text" placeholder="Muito irado esse link falando de #javascript"></input>
-                    <button type="submit">Publicar</button>
+                <form onSubmit={createPost}>
+                    <input disabled={publishing} required value={link} onChange={(e) => setLink(e.target.value)} type="url" placeholder="http:// ..."></input>
+                    <input disabled={publishing} value={text} onChange={(e) => setText(e.target.value)} type="text" placeholder="Muito irado esse link falando de #javascript"></input>
+                    <button disabled={publishing} type="submit" > {publishing ? "Publicando" : "Publicar"} </button>
                 </form>
             </div>
         </CreatePostContainer>
@@ -26,12 +62,15 @@ const CreatePostContainer = styled.div`
     padding: 12px;
     display: flex;
     justify-content: space-between;
-
+    margin: 16px 0;
+    
     img{
         display: none;
+        margin-right: 18px;
     }
 
     div{
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -85,6 +124,7 @@ const CreatePostContainer = styled.div`
                 color: #FFFFFF;
 
                 align-self: flex-end;
+                cursor: pointer;
             }
         }
     }
