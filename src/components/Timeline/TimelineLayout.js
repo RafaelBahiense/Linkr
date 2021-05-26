@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Loader from "react-loader-spinner";
 
 import Navbar from "../general/Navbar/Navbar";
+import CreatePost from "../Post/CreatePost";
 import Post from "../Post/Post";
 import Trending from "./Trending";
 
@@ -12,12 +13,13 @@ export default function TimelineLayout (props) {
         <Container>
             <h2>{props.title ? props.title : "timeline"}</h2>
             <div>
-                <div>
+                <Posts>
+                    {props.createPost ? <CreatePost /> : ""}
                     {props.posts.length > 0 
                         ? props.posts.map((post, index) => <Post key={index} {...post}/>)
                         : <Loader type="Rings" color="#00BFFF" height={400} width={400} />
                     }
-                </div>
+                </Posts>
                 <div>
                     <Trending />
                 </div>
@@ -49,4 +51,8 @@ const Container =  styled.div`
 
 const LoaderWrapper = styled.div`
     margin: auto auto;
+`;
+
+const Posts = styled.div`
+    min-width: 611px;
 `;

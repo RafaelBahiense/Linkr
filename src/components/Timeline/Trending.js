@@ -1,18 +1,19 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import styled from "styled-components";
+import UserContext from "../../contexts/UserContext";
 
 export default function Trending () {
     const [trending, setTrending] = React.useState([]);
+    const {token} = useContext(UserContext);
 
     const history = useHistory();
-
     useEffect(() => {
         const config = {
             headers: {
-                "Authorization": `Bearer token`
+                "Authorization": `Bearer ${token}`
             }
         }
 
