@@ -101,7 +101,7 @@ export default function Likes(props) {
                 </>
             }
 
-            <p> {likesQuantity} likes </p>
+            <p> {likesQuantity} {likesQuantity===1 ? "like" : "likes"} </p>
         </LikesContainer>
     );
 }
