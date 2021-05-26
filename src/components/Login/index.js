@@ -8,38 +8,36 @@ import Message from '../general/Message';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 
-const SignUp = () => {
+const Login = ({ setUser }) => {
 	const history = useHistory();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [username, setUsername] = useState('');
-	const [pictureUrl, setPictureUrl] = useState('');
 	const [disabled, setDisabled] = useState(false);
 
-	const handleSignup = (e) => {
+	const handleLogin = (e) => {
 		setDisabled(true);
 		e.preventDefault();
 
 		const data = {
 			email,
 			password,
-			username,
-			pictureUrl,
 		};
 
-		if (!email || !password || !username || !pictureUrl) {
+		if (!email || !password) {
 			alert('Preencha todos os campos');
 		} else {
 			axios
 				.post(
-					'https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/sign-up',
+					'https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/sign-in',
 					data
 				)
 				.then((res) => {
-					history.push('/');
+					setUser(res.data);
+					history.push('/timeline');
 				})
 				.catch((err) => {
-					alert('Email já cadastrado! Tente novamente!');
+                    console.log(err);
+					alert('Email ou senha incorretos. Tente novamente!');
 				});
 		}
 		setDisabled(false);
@@ -67,11 +65,11 @@ const SignUp = () => {
 				</Container>
 			</Container>
 			<Container width="40%" justify="center">
-				<Container height="420px" font="Oswald">
+				<Container height="270px" font="Oswald">
 					<Form
 						width="430px"
 						disabled={disabled}
-						onSubmit={handleSignup}
+						onSubmit={handleLogin}
 					>
 						<Input
 							height={65}
@@ -83,23 +81,11 @@ const SignUp = () => {
 							type="password"
 							data={{ value: password, setValue: setPassword }}
 						/>
-						<Input
-							height={65}
-							data={{ value: username, setValue: setUsername }}
-						/>
-						<Input
-							height={65}
-							type="url"
-							data={{
-								value: pictureUrl,
-								setValue: setPictureUrl,
-							}}
-						/>
-						<Button height={65} text="Sign Up" />
+						<Button height={65} text="Log In" />
 					</Form>
 					<Go
-						to="/"
-						text="Switch back to log in"
+						to="/sign-up"
+						text="First time? Create an account!"
 						color="#fff"
 						fSize="20px"
 					/>
@@ -109,4 +95,4 @@ const SignUp = () => {
 	);
 };
 
-export default SignUp;
+export default Login;

@@ -17,7 +17,8 @@ const Container = ({
 	align,
 	onClick,
 	cursor,
-	font
+	font,
+	shadow
 }) => {
 	return (
 		<StyledContainer
@@ -36,6 +37,7 @@ const Container = ({
 			minW={minW}
 			maxW={maxW}
 			font={font}
+			shadow={shadow}
 		>
 			{children}
 		</StyledContainer>

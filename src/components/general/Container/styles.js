@@ -16,6 +16,7 @@ const StyledContainer = styled.div`
 	margin: ${(props) => (props.margin ? props.margin : '0')};
 	cursor: ${(props) => (props.cursor ? props.cursor : 'auto')};
 	font-family: ${(props) => (props.font ? props.font : 'inherit')};
+	box-shadow: ${(props) => (props.shadow ? props.shadow : 'none')};
 `;
 
 export default StyledContainer;
