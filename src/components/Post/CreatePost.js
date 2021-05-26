@@ -4,13 +4,13 @@ import styled from 'styled-components';
 import UserContext from '../../contexts/UserContext';
 import Avatar from '../general/Avatar';
 
-export default function CreatePost() {
+export default function CreatePost({refreshPosts}) {
 
     const [text, setText] = useState("");
     const [link, setLink] = useState("");
     const [publishing, setPublishing] = useState(false);
 
-    const { token } = useContext(UserContext);
+    const { user, token } = useContext(UserContext);
 
     function createPost(e) {
         e.preventDefault();
@@ -33,6 +33,7 @@ export default function CreatePost() {
             setPublishing(false);
             setText("");
             setLink("");
+            refreshPosts();
         });
 
         response.catch(() => {
@@ -43,7 +44,7 @@ export default function CreatePost() {
 
     return (
         <CreatePostContainer>
-            <Avatar width="50px" />
+            <Avatar id={user.id} avatar={user.avatar} />
             <div>
                 <p>O que você tem pra favoritar hoje?</p>
                 <form onSubmit={createPost}>
