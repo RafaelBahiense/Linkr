@@ -76,6 +76,7 @@ export default function Post(props) {
         promise.then(() => {
             setSendingPutRequest(false);
             setEditing(false);
+            refreshPosts();
         })
     }
 
