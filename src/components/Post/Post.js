@@ -12,7 +12,7 @@ import ModalScreen from './Modal';
 
 export default function Post(props) {
 
-    const { text, link } = props;
+    const { text, link, refreshPosts } = props;
     const { user, token } = useContext(UserContext);
     const [deleting, setDeleting] = useState(false);
     const [editing, setEditing] = useState(false);
@@ -36,6 +36,7 @@ export default function Post(props) {
             console.log(response);
             setDeleting(false);
             setIsOpen(false);
+            refreshPosts();
         });
         promise.catch(err => {
             console.log(err);

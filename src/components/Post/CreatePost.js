@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import UserContext from '../../contexts/UserContext';
 import Avatar from '../general/Avatar';
 
-export default function CreatePost() {
+export default function CreatePost({refreshPosts}) {
 
     const [text, setText] = useState("");
     const [link, setLink] = useState("");
@@ -33,6 +33,7 @@ export default function CreatePost() {
             setPublishing(false);
             setText("");
             setLink("");
+            refreshPosts();
         });
 
         response.catch(() => {
