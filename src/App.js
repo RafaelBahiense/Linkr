@@ -6,11 +6,10 @@ import {
 } from "react-router-dom";
 import "./styles/reset.css";
 import "./styles/global.css";
-import Post from "./components/Post/Post";
-import CreatePost from "./components/Post/CreatePost";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import UserContext from "./contexts/UserContext";
+import Timeline from "./components/Timeline/Timeline.js";
 
 
 export default function App() {
@@ -36,9 +35,9 @@ export default function App() {
                     <Route path="/user/:id" exact>
                     </Route>
 
-                    <Route path="/timeline" exact>
-                        
-                    </Route>
+                <Route path="/timeline" exact>
+                    <Timeline />
+                </Route>
 
                     <Route path="/my-likes" exact>
                     </Route>
