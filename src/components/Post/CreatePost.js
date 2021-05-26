@@ -10,7 +10,7 @@ export default function CreatePost() {
     const [link, setLink] = useState("");
     const [publishing, setPublishing] = useState(false);
 
-    const { token } = useContext(UserContext);
+    const { user, token } = useContext(UserContext);
 
     function createPost(e) {
         e.preventDefault();
@@ -43,7 +43,7 @@ export default function CreatePost() {
 
     return (
         <CreatePostContainer>
-            <Avatar width="50px" />
+            <Avatar id={user.id} avatar={user.avatar} />
             <div>
                 <p>O que você tem pra favoritar hoje?</p>
                 <form onSubmit={createPost}>
