@@ -20,7 +20,7 @@ export default function Trending () {
 
         request.then((response) => {
             setTrending([...response.data.hashtags]);
-        },).catch((response) => {
+        },).catch(() => {
             alert("Faça login novamente!");
             history.push("/");
         })

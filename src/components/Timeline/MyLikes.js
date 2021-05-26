@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 
 import TimelineLayout from "./TimelineLayout";
 
-export default function Timeline (props) {
+export default function MyLikes (props) {
     const [posts, setPosts] =  React.useState([]);
 
     const history = useHistory();
@@ -16,7 +16,7 @@ export default function Timeline (props) {
             }
         }
 
-        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${props.userid}/posts,`, config)
+        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/liked,`, config)
 
         request.then((response) => {
             setPosts([...response.data.posts]);
@@ -27,6 +27,6 @@ export default function Timeline (props) {
     },[]);
 
     return (
-        <TimelineLayout posts={posts} title={`${props.userName}'s posts`}/>
+        <TimelineLayout posts={posts} title={"my likes"}/>
     );
 }
