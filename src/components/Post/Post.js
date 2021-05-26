@@ -4,18 +4,47 @@ import Likes from './Likes';
 import PostLink from './PostLink';
 import { TiPencil, TiTrash } from "react-icons/ti";
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import UserContext from '../../contexts/UserContext';
+import axios from 'axios';
+import ModalScreen from './Modal';
 
 
 export default function Post(props) {
 
     const { text } = props;
-    const { user } = useContext(UserContext);
+    const { user, token } = useContext(UserContext);
+    const [deleting, setDeleting] = useState(false);
     const myPost = (props.user.id === user.id);
+
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    };
+
+    function deletePost() {
+        setDeleting(true);
+        const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${props.id}`, config);
+
+        promise.then(response => {
+            console.log(response);
+            setDeleting(false);
+            setIsOpen(false);
+        });
+        promise.catch(err => {
+            console.log(err);
+            setDeleting(false);
+            setIsOpen(false);
+            alert("Não foi possível excluir esse post!");
+        });
+    }
 
     return (
         <PostContainer>
+            { modalIsOpen ? <ModalScreen deleting={deleting} deletePost={deletePost} setIsOpen={setIsOpen} modalIsOpen={modalIsOpen} /> : ""}
             <div>
                 <Avatar />
                 <Likes {...props} />
@@ -27,7 +56,7 @@ export default function Post(props) {
                         ?
                         <div>
                             <TiPencil />
-                            <TiTrash />
+                            <TiTrash onClick={() => setIsOpen(true)} />
                         </div>
                         :
                         <div></div>
@@ -48,6 +77,7 @@ const PostContainer = styled.div`
     height: 232px;
     padding: 9px 18px 15px 15px;
     margin: 16px 0;
+    position: relative;
 
     @media (min-width: 750px){
         width: 611px;
