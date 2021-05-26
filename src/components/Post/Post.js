@@ -12,7 +12,7 @@ import ModalScreen from './Modal';
 
 export default function Post(props) {
 
-    const { text } = props;
+    const { text, link } = props;
     const { user, token } = useContext(UserContext);
     const [deleting, setDeleting] = useState(false);
     const [editing, setEditing] = useState(false);
@@ -106,7 +106,7 @@ export default function Post(props) {
                     }
                     {editing ? "" : (newText || text)}
                 </PostContent>
-                <PostLink {...props} />
+                <a href={link} target="_blank"><PostLink {...props} /></a>
             </PostContentContainer>
         </PostContainer>
     );
