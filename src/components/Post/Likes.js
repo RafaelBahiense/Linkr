@@ -7,16 +7,15 @@ import UserContext from '../../contexts/UserContext';
 
 export default function Likes(props) {
 
-    const { likes } = props;
+    const { likes, id } = props;
     const [liked, setLiked] = useState(false);
     const [likedNames, setLikedNames] = useState([]);
     const [likesQuantity, setLikesQuantity] = useState(0);
-
-    const { user } = useContext(UserContext);
-
+    const { token } = useContext(UserContext);
+    
     const config = {
         headers: {
-            'Authorization': `Bearer ${user.token}`
+            'Authorization': `Bearer ${token}`
         }
     }
 
@@ -41,19 +40,19 @@ export default function Likes(props) {
     }
 
     function Like() {
-        const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${likes.postId}/like`, config);
-        response.then(data => {
-            getLikedNames(data.likes);
-            setLikesQuantity(data.likes.length);
+        const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${id}/like`,{}, config);
+        response.then(response => {
+            getLikedNames(response.data.post.likes);
+            setLikesQuantity(response.data.post.likes.length);
         });
         setLiked(true);
     }
 
     function UnLike() {
-        const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${likes.postId}/dislike`, config);
-        response.then(data => {
-            getLikedNames(data.likes);
-            setLikesQuantity(data.likes.length);
+        const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${id}/dislike`,{}, config);
+        response.then(response => {
+            getLikedNames(response.data.post.likes);
+            setLikesQuantity(response.data.post.likes.length);
         });
         setLiked(false);
     }

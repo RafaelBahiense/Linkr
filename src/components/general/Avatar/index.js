@@ -8,7 +8,7 @@ export default function Avatar() {
     const { user } = useContext(UserContext);
 
     return (
-        <Link to={`/user/${user.user.id}`}><Logo src={user.user.avatar} /></Link>
+        <Link to={`/user/${user.id}`}><Logo src={user.avatar} /></Link>
     );
 }
 

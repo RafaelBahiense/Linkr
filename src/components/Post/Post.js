@@ -12,7 +12,7 @@ export default function Post(props) {
 
     const { text } = props;
     const { user } = useContext(UserContext);
-    const myPost = (props.user.id === user.user.id);
+    const myPost = (props.user.id === user.id);
 
     return (
         <PostContainer>
@@ -22,7 +22,7 @@ export default function Post(props) {
             </div>
             <PostContentContainer>
                 <PostUserName>
-                    <Link to={`/user/${user.user.id}`}>{user.user.username}</Link>
+                    <Link to={`/user/${user.id}`}>{user.username}</Link>
                     {myPost
                         ?
                         <div>

@@ -10,7 +10,7 @@ export default function CreatePost() {
     const [link, setLink] = useState("");
     const [publishing, setPublishing] = useState(false);
 
-    const { user } = useContext(UserContext);
+    const { token } = useContext(UserContext);
 
     function createPost(e) {
         e.preventDefault();
@@ -18,7 +18,7 @@ export default function CreatePost() {
 
         const config = {
             headers: {
-                'Authorization': `Bearer ${user.token}`
+                'Authorization': `Bearer ${token}`
             }
         }
 
