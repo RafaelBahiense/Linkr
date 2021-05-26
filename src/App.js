@@ -19,9 +19,6 @@ export default function App() {
             <Switch>
                 <Route path="/" exact>
                     <Login setUser={setUser} />
-                    {/* Código do Kuritza que tava nessa rota, mas não sei onde deveria estar
-                    <CreatePost />
-                    <Post /> */}
                 </Route>
 
                 <Route path="/sign-up" exact>
@@ -35,9 +32,9 @@ export default function App() {
                     <Route path="/user/:id" exact>
                     </Route>
 
-                <Route path="/timeline" exact>
-                    <Timeline />
-                </Route>
+                    <Route path="/timeline" exact>
+                        <Timeline />
+                    </Route>
 
                     <Route path="/my-likes" exact>
                     </Route>
