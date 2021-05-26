@@ -1,9 +1,14 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
+import UserContext from '../../../contexts/UserContext';
 
-export default function Avatar(){
+export default function Avatar() {
 
-    return(
-        <Logo src="https://cozinhatecnica.com/wp-content/uploads/2019/11/massa-de-pastel.jpg"/>
+    const { user } = useContext(UserContext);
+
+    return (
+        <Link to={`/user/${user.id}`}><Logo src={user.avatar} /></Link>
     );
 }
 

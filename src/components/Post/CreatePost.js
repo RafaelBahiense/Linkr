@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
+import UserContext from '../../contexts/UserContext';
 import Avatar from '../general/Avatar';
 
 export default function CreatePost() {
@@ -9,13 +10,15 @@ export default function CreatePost() {
     const [link, setLink] = useState("");
     const [publishing, setPublishing] = useState(false);
 
+    const { token } = useContext(UserContext);
+
     function createPost(e) {
         e.preventDefault();
         setPublishing(true);
 
         const config = {
             headers: {
-                'Authorization': `Bearer 2d039c10-181e-4913-b81a-c6e9eeb7842d`
+                'Authorization': `Bearer ${token}`
             }
         }
 
