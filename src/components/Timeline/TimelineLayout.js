@@ -11,12 +11,12 @@ export default function TimelineLayout (props) {
         <>
         <Navbar/>
         <Container>
-            <h2>{props.title ? props.title : "timeline"}</h2>
+            <h2 onClick={() => props.refreshPosts()}>{props.title ? props.title : "timeline"}</h2>
             <div>
                 <Posts>
-                    {props.createPost ? <CreatePost /> : ""}
+                    {props.createPost ? <CreatePost refreshPosts={props.refreshPosts}/> : ""}
                     {props.posts.length > 0 
-                        ? props.posts.map((post, index) => <Post key={index} {...post}/>)
+                        ? props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts}/>)
                         : <Loader type="Rings" color="#00BFFF" height={400} width={400} />
                     }
                 </Posts>
