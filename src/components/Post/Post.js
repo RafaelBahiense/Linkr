@@ -4,12 +4,15 @@ import Likes from './Likes';
 import PostLink from './PostLink';
 import { TiPencil, TiTrash } from "react-icons/ti";
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import UserContext from '../../contexts/UserContext';
 
 
 export default function Post(props) {
 
-    const { text, user } = props;
-    const myPost = (user.id === "context.user.id");
+    const { text } = props;
+    const { user } = useContext(UserContext);
+    const myPost = (props.user.id === user.user.id);
 
     return (
         <PostContainer>
@@ -19,7 +22,7 @@ export default function Post(props) {
             </div>
             <PostContentContainer>
                 <PostUserName>
-                    <Link to={`/user/${props.user.id}`}>{user.username}</Link>
+                    <Link to={`/user/${user.user.id}`}>{user.user.username}</Link>
                     {myPost
                         ?
                         <div>

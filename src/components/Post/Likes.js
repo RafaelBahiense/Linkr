@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import ReactTooltip from 'react-tooltip';
+import UserContext from '../../contexts/UserContext';
 
 export default function Likes(props) {
 
@@ -11,9 +12,11 @@ export default function Likes(props) {
     const [likedNames, setLikedNames] = useState([]);
     const [likesQuantity, setLikesQuantity] = useState(0);
 
+    const { user } = useContext(UserContext);
+
     const config = {
         headers: {
-            'Authorization': `Bearer 2d039c10-181e-4913-b81a-c6e9eeb7842d`
+            'Authorization': `Bearer ${user.token}`
         }
     }
 
