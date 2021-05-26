@@ -5,9 +5,9 @@ import React, { useEffect, useContext } from "react";
 import TimelineLayout from "./TimelineLayout";
 import UserContext from "../../contexts/UserContext";
 
-export default function Timeline (props) {
+export default function MyPosts() {
     const [posts, setPosts] =  React.useState([]);
-    const {token} = useContext(UserContext);
+    const {user, token} = useContext(UserContext);
 
     const history = useHistory();
 
@@ -18,7 +18,7 @@ export default function Timeline (props) {
             }
         }
 
-        const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts", config)
+        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${user.id}/posts,`, config)
 
         request.then((response) => {
             setPosts([...response.data.posts]);
@@ -29,6 +29,6 @@ export default function Timeline (props) {
     },[]);
 
     return (
-        <TimelineLayout posts={posts} createPost={true}/>
+        <TimelineLayout posts={posts} title={"my posts"}/>
     );
 }

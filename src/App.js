@@ -10,6 +10,8 @@ import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import UserContext from "./contexts/UserContext";
 import Timeline from "./components/Timeline/Timeline.js";
+import MyLikes from "./components/Timeline/MyLikes";
+import MyPosts from "./components/Timeline/MyPosts";
 
 
 export default function App() {
@@ -37,9 +39,11 @@ export default function App() {
                     </Route>
 
                     <Route path="/my-likes" exact>
+                        <MyLikes />
                     </Route>
 
                     <Route path="/my-posts" exact>
+                        <MyPosts />
                     </Route>
                 </UserContext.Provider>
             </Switch>

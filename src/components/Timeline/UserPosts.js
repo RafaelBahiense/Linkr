@@ -1,18 +1,20 @@
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 
 import TimelineLayout from "./TimelineLayout";
+import UserContext from "../../contexts/UserContext";
 
-export default function Timeline (props) {
+export default function UserPosts (props) {
     const [posts, setPosts] =  React.useState([]);
+    const {token} = useContext(UserContext);
 
     const history = useHistory();
 
     useEffect(() => {
         const config = {
             headers: {
-                "Authorization": `Bearer token`
+                "Authorization": `Bearer ${token}`
             }
         }
 
@@ -27,6 +29,6 @@ export default function Timeline (props) {
     },[]);
 
     return (
-        <TimelineLayout posts={posts} title={props.userName}/>
+        <TimelineLayout posts={posts} title={`${props.userName}'s posts`}/>
     );
 }
