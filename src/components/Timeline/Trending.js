@@ -1,10 +1,13 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
 
 import styled from "styled-components";
 
 export default function Trending () {
     const [trending, setTrending] = React.useState([]);
+
+    const history = useHistory();
 
     useEffect(() => {
         const config = {
@@ -18,7 +21,8 @@ export default function Trending () {
         request.then((response) => {
             setTrending([...response.data.hashtags]);
         },).catch((response) => {
-            console.log(response)
+            alert("Faça login novamente!");
+            history.push("/");
         })
     },[]);
 
@@ -26,7 +30,7 @@ export default function Trending () {
         <TrendingWrapper>
             <Title>trending</Title>
             <Bar/>
-            {trending.map((hashtag) => <Hashtag>{`# ${hashtag.name}`}</Hashtag> )}
+            {trending.map((hashtag) => <Link to={`/hashtag/${hashtag.name}`}><Hashtag>{`# ${hashtag.name}`}</Hashtag></Link> )}
         </TrendingWrapper>
     );
 }
