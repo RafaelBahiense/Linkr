@@ -17,12 +17,12 @@ export default function Post(props) {
     return (
         <PostContainer>
             <div>
-                <Avatar />
+                <Avatar user={props.user} />
                 <Likes {...props} />
             </div>
             <PostContentContainer>
                 <PostUserName>
-                    <Link to={`/user/${user.id}`}>{user.username}</Link>
+                    <Link to={`/user/${props.user.id}`}>{props.user.username}</Link>
                     {myPost
                         ?
                         <div>
