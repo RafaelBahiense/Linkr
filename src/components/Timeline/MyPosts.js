@@ -23,7 +23,7 @@ export default function MyPosts() {
     }
 
     useEffect(() => {
-        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${user.id}/posts,`, config)
+        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${user.id}/posts`, config)
 
         request.then((response) => {
             setPosts([...response.data.posts]);

@@ -24,7 +24,6 @@ export default function Timeline (props) {
     
     useEffect(() => {
         const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts", config)
-        console.log("loaded posts")
         request.then((response) => {
             setPosts([...response.data.posts]);
         },).catch(() => {
