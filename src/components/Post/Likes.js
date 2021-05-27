@@ -41,17 +41,21 @@ export default function Likes(props) {
     }
 
     function Like() {
+        setLiked(true);
         const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${id}/like`, {}, config);
-        response.then(response => {
+        response.then( () => {
             refreshPosts();
         });
+        response.catch( () => setLiked(false));
     }
 
     function UnLike() {
+        setLiked(false);
         const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${id}/dislike`, {}, config);
-        response.then(response => {
+        response.then( () => {
             refreshPosts();
         });
+        response.catch( () => setLiked(true))
     }
 
     function unLikeIconText() {
