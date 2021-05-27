@@ -12,7 +12,7 @@ export default function Likes(props) {
     const [likedNames, setLikedNames] = useState([]);
     const [likesQuantity, setLikesQuantity] = useState(0);
     const { user, token } = useContext(UserContext);
-
+    console.log(user);
     const config = {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -26,7 +26,7 @@ export default function Likes(props) {
                 likedNamesAux.push(array[i]["user.username"] || array[i].username);
             }
         }
-        const filteredNames = likedNamesAux.filter(name => name !== user.name);
+        const filteredNames = likedNamesAux.filter(name => name !== user.username);
         setLikedNames(filteredNames);
     }
 
@@ -37,7 +37,7 @@ export default function Likes(props) {
     }, []);
 
     function isLiked() {
-        setLiked(likes.filter(like => like.userId === like['user.id']).length);
+        setLiked(likes.filter(like => like.userId === user.id).length);
     }
 
     function Like() {
