@@ -12,6 +12,8 @@ import UserContext from "./contexts/UserContext";
 import Timeline from "./components/Timeline/Timeline.js";
 import MyLikes from "./components/Timeline/MyLikes";
 import MyPosts from "./components/Timeline/MyPosts";
+import Hashtag from "./components/Hashtag";
+import UserPosts from "./components/UserPosts";
 
 
 export default function App() {
@@ -29,9 +31,11 @@ export default function App() {
 
                 <UserContext.Provider value={user}>
                     <Route path="/hashtag/:hashtag" exact>
+                        <Hashtag />
                     </Route>
 
                     <Route path="/user/:id" exact>
+                        <UserPosts />
                     </Route>
 
                     <Route path="/timeline" exact>
