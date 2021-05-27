@@ -10,25 +10,30 @@ export default function Timeline (props) {
     const {token} = useContext(UserContext);
 
     const history = useHistory();
+    const [refresh, setRefresh] = React.useState([]);
 
-    useEffect(() => {
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+    function refreshPosts () {
+        setRefresh([...refresh]);
+    }
+
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
         }
-
+    }
+    
+    useEffect(() => {
         const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts", config)
-
+        console.log("loaded posts")
         request.then((response) => {
             setPosts([...response.data.posts]);
         },).catch(() => {
             alert("Faça login novamente!");
             history.push("/");
         })
-    },[]);
+    },[refresh]);
 
     return (
-        <TimelineLayout posts={posts} createPost={true}/>
+        <TimelineLayout posts={posts} createPost={true} refreshPosts={refreshPosts}/>
     );
 }

@@ -9,7 +9,6 @@ const Hashtag = () => {
     const [posts, setPosts] = useState([]);
     const {token} = useContext(UserContext);
     const {hashtag} = useParams();
-    console.log(hashtag);
 
     const history = useHistory();
 

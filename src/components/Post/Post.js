@@ -4,21 +4,89 @@ import Likes from './Likes';
 import PostLink from './PostLink';
 import { TiPencil, TiTrash } from "react-icons/ti";
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { useState, useContext, useRef, useEffect } from 'react';
 import UserContext from '../../contexts/UserContext';
+import axios from 'axios';
+import ModalScreen from './Modal';
+import ReactHashtag from "react-hashtag";
 
 
 export default function Post(props) {
 
-    const { text } = props;
-    const { user } = useContext(UserContext);
+    const { text, link, refreshPosts } = props;
+    const { user, token } = useContext(UserContext);
+    const [deleting, setDeleting] = useState(false);
+    const [editing, setEditing] = useState(false);
+    const [sendingPutRequest, setSendingPutRequest] = useState(false);
+    const [newText, setNewText] = useState("")
     const myPost = (props.user.id === user.id);
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const inputElement = useRef(null);
+
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    };
+
+    function deletePost() {
+        setDeleting(true);
+        const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${props.id}`, config);
+
+        promise.then(response => {
+            console.log(response);
+            setDeleting(false);
+            setIsOpen(false);
+            refreshPosts();
+        });
+        promise.catch(err => {
+            console.log(err);
+            setDeleting(false);
+            setIsOpen(false);
+            alert("Não foi possível excluir esse post!");
+        });
+    }
+
+    function editingPost() {
+        setEditing(!editing);
+        setNewText("");
+    }
+
+    useEffect(() => {
+        if (editing) {
+            inputElement.current.focus();
+        }
+    }, [editing]);
+
+    function editPost(e) {
+        e.preventDefault();
+        setSendingPutRequest(true);
+
+        const data = {
+            "text": newText
+        };
+
+        const promise = axios.put(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${props.id}`, data, config);
+
+        promise.catch((err) => {
+            alert("Não foi possível editar o texto!");
+            console.log(err);
+            setSendingPutRequest(false);
+        })
+
+        promise.then(() => {
+            setSendingPutRequest(false);
+            setEditing(false);
+            refreshPosts();
+        })
+    }
 
     return (
         <PostContainer>
+            { modalIsOpen ? <ModalScreen deleting={deleting} deletePost={deletePost} setIsOpen={setIsOpen} modalIsOpen={modalIsOpen} /> : ""}
             <div>
-                <Avatar user={props.user} />
-                <Likes {...props} />
+                <Avatar id={props.user.id} avatar={props.user.avatar} />
+                <Likes refreshPosts={refreshPosts} {...props} />
             </div>
             <PostContentContainer>
                 <PostUserName>
@@ -26,15 +94,27 @@ export default function Post(props) {
                     {myPost
                         ?
                         <div>
-                            <TiPencil />
-                            <TiTrash />
+                            <TiPencil onClick={() => editingPost()} />
+                            <TiTrash onClick={() => setIsOpen(true)} />
                         </div>
                         :
                         <div></div>
                     }
                 </PostUserName>
-                <PostContent>{text}</PostContent>
-                <PostLink {...props} />
+                <PostContent >
+                    {editing &&
+                        <form onSubmit={(e) => editPost(e)} onKeyDown={(key) => key.code === "Escape" && editingPost()}>
+                            <input ref={inputElement} disabled={sendingPutRequest} onChange={(e) => setNewText(e.target.value)} type="text" value={newText || text} />
+                        </form>
+                    }
+                    {editing 
+                        ? "" 
+                        : (<ReactHashtag renderHashtag={(hashtagValue) => (
+                            <a href={`/hastag/${hashtagValue.replace("#","")}`}>{hashtagValue}</a>
+                        )}>{newText || text}</ReactHashtag>)
+                    }
+                </PostContent>
+                <a href={link} target="_blank"><PostLink {...props} /></a>
             </PostContentContainer>
         </PostContainer>
     );
@@ -48,6 +128,7 @@ const PostContainer = styled.div`
     height: 232px;
     padding: 9px 18px 15px 15px;
     margin: 16px 0;
+    position: relative;
 
     @media (min-width: 750px){
         width: 611px;
@@ -97,8 +178,25 @@ const PostContent = styled.p`
     line-height: 18px;
     color: #B7B7B7;
     margin: 7px 0 13px 0;
+    word-break: break-all;
     
     strong{
+        color: #FFFFFF;
+    }
+
+    input{
+        width: 100%;
+        border-radius: 7px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        color: #4C4C4C;
+        padding: 4px 12px 12px 9px;
+        outline: none;
+    }
+
+    a {
+        font-weight: bold;
         color: #FFFFFF;
     }
 

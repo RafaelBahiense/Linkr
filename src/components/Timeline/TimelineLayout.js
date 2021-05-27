@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Loader from "react-loader-spinner";
 
@@ -7,22 +8,34 @@ import Post from "../Post/Post";
 import Trending from "./Trending";
 
 export default function TimelineLayout (props) {
+    const [width, setWidth] = React.useState(window.innerWidth);
+    useEffect(() => {
+        const handleResizeWindow = () => setWidth(window.innerWidth);
+            window.addEventListener("resize", handleResizeWindow);
+            return () => {
+            window.removeEventListener("resize", handleResizeWindow);
+            };
+    }, []);
+
     return (
         <>
         <Navbar/>
-        <Container>
+        <Container width={width}>
             <h2>{props.title ? props.title : "timeline"}</h2>
             <div>
-                <Posts>
-                    {props.createPost ? <CreatePost /> : ""}
+                <Posts width={width}>
+                    {props.createPost ? <CreatePost refreshPosts={props.refreshPosts}/> : ""}
                     {props.posts.length > 0 
-                        ? props.posts.map((post, index) => <Post key={index} {...post}/>)
+                        ? props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts}/>)
                         : <Loader type="Rings" color="#00BFFF" height={400} width={400} />
                     }
                 </Posts>
-                <div>
-                    <Trending />
-                </div>
+                {width >= 940
+                    ?   <div>
+                            <Trending />
+                        </div>
+                    : null
+                }
             </div>
         </Container>
         </>
@@ -32,7 +45,7 @@ export default function TimelineLayout (props) {
 const Container =  styled.div`
     margin: 0 auto;
     margin-top: 122px;
-    width: 937px;
+    width: ${(props) => props.width >= 940 ? "937px" : props.width > 611 ? "611px" : "100%"};
 
     & > h2 {
         margin-bottom: 40px;
@@ -49,10 +62,6 @@ const Container =  styled.div`
 
 `;
 
-const LoaderWrapper = styled.div`
-    margin: auto auto;
-`;
-
 const Posts = styled.div`
-    min-width: 611px;
+    max-width: ${(props) => props.width > 611 ? "611px" : "100%"};
 `;

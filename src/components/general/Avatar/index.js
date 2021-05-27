@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import UserContext from '../../../contexts/UserContext';
 
-export default function Avatar({user}) {
-    
-    const { user: thisUser } = useContext(UserContext);
-    user = user || thisUser;
+export default function Avatar(props) {
+
+    const { id, avatar } = props;
 
     return (
-        <Link to={`/user/${user.id}`}><Logo src={user.avatar} /></Link>
+        <Link to={`/user/${id}`}><Logo src={avatar} /></Link>
     );
 }
 
