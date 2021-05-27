@@ -85,7 +85,7 @@ export default function Post(props) {
             { modalIsOpen ? <ModalScreen deleting={deleting} deletePost={deletePost} setIsOpen={setIsOpen} modalIsOpen={modalIsOpen} /> : ""}
             <div>
                 <Avatar id={props.user.id} avatar={props.user.avatar} />
-                <Likes {...props} />
+                <Likes refreshPosts={refreshPosts} {...props} />
             </div>
             <PostContentContainer>
                 <PostUserName>

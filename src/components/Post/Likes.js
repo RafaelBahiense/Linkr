@@ -7,12 +7,12 @@ import UserContext from '../../contexts/UserContext';
 
 export default function Likes(props) {
 
-    const { likes, id } = props;
+    const { likes, id, refreshPosts} = props;
     const [liked, setLiked] = useState(false);
     const [likedNames, setLikedNames] = useState([]);
     const [likesQuantity, setLikesQuantity] = useState(0);
     const { user, token } = useContext(UserContext);
-    console.log(user);
+    
     const config = {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -37,11 +37,12 @@ export default function Likes(props) {
     }, []);
 
     function isLiked() {
-        setLiked(likes.filter(like => like.userId === user.id).length);
+        setLiked(likes.filter(like => like.userId === user.id).length === 1);
     }
 
     function Like() {
         const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${id}/like`, {}, config);
+        refreshPosts();
         response.then(response => {
             getLikedNames(response.data.post.likes);
             setLikesQuantity(response.data.post.likes.length);
@@ -51,6 +52,7 @@ export default function Likes(props) {
 
     function UnLike() {
         const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${id}/dislike`, {}, config);
+        refreshPosts();
         response.then(response => {
             getLikedNames(response.data.post.likes);
             setLikesQuantity(response.data.post.likes.length);
