@@ -1,10 +1,12 @@
 import styled from "styled-components";
 
+import Avatar from "../Avatar/index";
+
 export default function Navbar () {
     return (
         <NavbarWrapper>
             <h1>linkr</h1>
-            <img src="https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/14/avatar"/>
+            <Avatar />
         </NavbarWrapper>
     );
 }
@@ -18,7 +20,8 @@ const NavbarWrapper = styled.nav`
     display: flex;
     justify-content: space-between;
     background-color: #151515;
-    color: #FFFFFF; 
+    color: #FFFFFF;
+    z-index: 10;
 
     & > h1 {
         margin-left: 18px;
