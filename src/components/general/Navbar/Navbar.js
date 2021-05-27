@@ -1,12 +1,16 @@
+import { useContext } from 'react';
 import styled from "styled-components";
 
 import Avatar from "../Avatar/index";
 
+import UserContext from '../../../contexts/UserContext';
+
 export default function Navbar () {
+    const {user} = useContext(UserContext);
     return (
         <NavbarWrapper>
             <h1>linkr</h1>
-            <Avatar />
+            <Avatar id={user.id} avatar={user.avatar}/>
         </NavbarWrapper>
     );
 }
