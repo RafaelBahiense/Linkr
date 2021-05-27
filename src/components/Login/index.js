@@ -72,11 +72,13 @@ const Login = ({ setUser }) => {
 						onSubmit={handleLogin}
 					>
 						<Input
+							text="email"
 							height={65}
 							type="email"
 							data={{ value: email, setValue: setEmail }}
 						/>
 						<Input
+							text="password"
 							height={65}
 							type="password"
 							data={{ value: password, setValue: setPassword }}

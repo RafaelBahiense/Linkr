@@ -74,20 +74,24 @@ const SignUp = () => {
 						onSubmit={handleSignup}
 					>
 						<Input
+							text="email"
 							height={65}
 							type="email"
 							data={{ value: email, setValue: setEmail }}
 						/>
 						<Input
+							text="password"
 							height={65}
 							type="password"
 							data={{ value: password, setValue: setPassword }}
 						/>
 						<Input
+							text="username"
 							height={65}
 							data={{ value: username, setValue: setUsername }}
 						/>
 						<Input
+							text="picture URL"
 							height={65}
 							type="url"
 							data={{

@@ -23,7 +23,7 @@ export default function MyLikes (props) {
     }
 
     useEffect(() => {
-        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/liked,`, config)
+        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/liked`, config)
 
         request.then((response) => {
             setPosts([...response.data.posts]);
