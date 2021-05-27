@@ -7,12 +7,12 @@ import UserContext from '../../contexts/UserContext';
 
 export default function Likes(props) {
 
-    const { likes, id } = props;
+    const { likes, id, refreshPosts} = props;
     const [liked, setLiked] = useState(false);
     const [likedNames, setLikedNames] = useState([]);
     const [likesQuantity, setLikesQuantity] = useState(0);
     const { user, token } = useContext(UserContext);
-
+    
     const config = {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -26,7 +26,7 @@ export default function Likes(props) {
                 likedNamesAux.push(array[i]["user.username"] || array[i].username);
             }
         }
-        const filteredNames = likedNamesAux.filter(name => name !== user.name);
+        const filteredNames = likedNamesAux.filter(name => name !== user.username);
         setLikedNames(filteredNames);
     }
 
@@ -34,28 +34,24 @@ export default function Likes(props) {
         isLiked();
         getLikedNames(likes);
         setLikesQuantity(likes.length);
-    }, []);
+    }, [likes]);
 
     function isLiked() {
-        setLiked(likes.filter(like => like.userId === like['user.id']).length);
+        setLiked(likes.filter(like => like.userId === user.id).length === 1);
     }
 
     function Like() {
         const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${id}/like`, {}, config);
         response.then(response => {
-            getLikedNames(response.data.post.likes);
-            setLikesQuantity(response.data.post.likes.length);
+            refreshPosts();
         });
-        setLiked(true);
     }
 
     function UnLike() {
         const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${id}/dislike`, {}, config);
         response.then(response => {
-            getLikedNames(response.data.post.likes);
-            setLikesQuantity(response.data.post.likes.length);
+            refreshPosts();
         });
-        setLiked(false);
     }
 
     function unLikeIconText() {
