@@ -172,6 +172,7 @@ const PostContent = styled.p`
     line-height: 18px;
     color: #B7B7B7;
     margin: 7px 0 13px 0;
+    word-break: break-all;
     
     strong{
         color: #FFFFFF;

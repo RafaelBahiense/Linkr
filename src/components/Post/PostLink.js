@@ -29,6 +29,7 @@ const PostLinkContainer = styled.div`
     color: #CECECE;
 
     font-weight: 400;
+    overflow-y: hidden;
 
     img{
         width: 95px;
@@ -53,7 +54,7 @@ const PostLinkContainer = styled.div`
     a{
         font-size: 9px;
         line-height: 11px;
-        
+        word-break: break-all;
     }
 
     @media (min-width: 750px){
