@@ -34,7 +34,7 @@ export default function Likes(props) {
         isLiked();
         getLikedNames(likes);
         setLikesQuantity(likes.length);
-    }, []);
+    }, [likes]);
 
     function isLiked() {
         setLiked(likes.filter(like => like.userId === user.id).length === 1);
@@ -42,22 +42,16 @@ export default function Likes(props) {
 
     function Like() {
         const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${id}/like`, {}, config);
-        refreshPosts();
         response.then(response => {
-            getLikedNames(response.data.post.likes);
-            setLikesQuantity(response.data.post.likes.length);
+            refreshPosts();
         });
-        setLiked(true);
     }
 
     function UnLike() {
         const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${id}/dislike`, {}, config);
-        refreshPosts();
         response.then(response => {
-            getLikedNames(response.data.post.likes);
-            setLikesQuantity(response.data.post.likes.length);
+            refreshPosts();
         });
-        setLiked(false);
     }
 
     function unLikeIconText() {
