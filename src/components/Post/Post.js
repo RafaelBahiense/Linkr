@@ -8,6 +8,7 @@ import { useState, useContext, useRef, useEffect } from 'react';
 import UserContext from '../../contexts/UserContext';
 import axios from 'axios';
 import ModalScreen from './Modal';
+import ReactHashtag from "react-hashtag";
 
 
 export default function Post(props) {
@@ -106,7 +107,12 @@ export default function Post(props) {
                             <input ref={inputElement} disabled={sendingPutRequest} onChange={(e) => setNewText(e.target.value)} type="text" value={newText || text} />
                         </form>
                     }
-                    {editing ? "" : (newText || text)}
+                    {editing 
+                        ? "" 
+                        : (<ReactHashtag renderHashtag={(hashtagValue) => (
+                            <a href={`/hastag/${hashtagValue.replace("#","")}`}>{hashtagValue}</a>
+                        )}>{newText || text}</ReactHashtag>)
+                    }
                 </PostContent>
                 <a href={link} target="_blank"><PostLink {...props} /></a>
             </PostContentContainer>
@@ -187,6 +193,11 @@ const PostContent = styled.p`
         color: #4C4C4C;
         padding: 4px 12px 12px 9px;
         outline: none;
+    }
+
+    a {
+        font-weight: bold;
+        color: #FFFFFF;
     }
 
     @media (min-width: 750px){
