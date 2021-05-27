@@ -110,7 +110,7 @@ export default function Post(props) {
                     {editing 
                         ? "" 
                         : (<ReactHashtag renderHashtag={(hashtagValue) => (
-                            <a href={`/hastag/${hashtagValue.replace("#","")}`}>{hashtagValue}</a>
+                            <a href={`/hashtag/${hashtagValue.replace("#","")}`}>{hashtagValue}</a>
                         )}>{newText || text}</ReactHashtag>)
                     }
                 </PostContent>
