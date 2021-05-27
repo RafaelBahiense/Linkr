@@ -86,7 +86,7 @@ export default function Post(props) {
             { modalIsOpen ? <ModalScreen deleting={deleting} deletePost={deletePost} setIsOpen={setIsOpen} modalIsOpen={modalIsOpen} /> : ""}
             <div>
                 <Avatar id={props.user.id} avatar={props.user.avatar} />
-                <Likes {...props} />
+                <Likes refreshPosts={refreshPosts} {...props} />
             </div>
             <PostContentContainer>
                 <PostUserName>
@@ -178,6 +178,7 @@ const PostContent = styled.p`
     line-height: 18px;
     color: #B7B7B7;
     margin: 7px 0 13px 0;
+    word-break: break-all;
     
     strong{
         color: #FFFFFF;
