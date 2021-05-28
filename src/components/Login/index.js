@@ -36,7 +36,7 @@ const Login = ({ setUser }) => {
 					history.push('/timeline');
 				})
 				.catch((err) => {
-                    console.log(err);
+					console.log(err);
 					alert('Email ou senha incorretos. Tente novamente!');
 				});
 		}
@@ -44,13 +44,13 @@ const Login = ({ setUser }) => {
 	};
 
 	const [width, setWidth] = React.useState(window.innerWidth);
-    useEffect(() => {
-        const handleResizeWindow = () => setWidth(window.innerWidth);
-            window.addEventListener("resize", handleResizeWindow);
-            return () => {
-            window.removeEventListener("resize", handleResizeWindow);
-            };
-    }, []);
+	useEffect(() => {
+		const handleResizeWindow = () => setWidth(window.innerWidth);
+		window.addEventListener("resize", handleResizeWindow);
+		return () => {
+			window.removeEventListener("resize", handleResizeWindow);
+		};
+	}, []);
 
 	const align = width > 1200 ? true : false;
 
@@ -58,12 +58,12 @@ const Login = ({ setUser }) => {
 		<Container horizontal={align}>
 			<Container
 				justify="center"
-				width={ width > 1200 ? "60%" : "100vw"}
+				width={width > 1200 ? "60%" : "100vw"}
 				bgColor="#151515"
 				shadow="4px 0 4px rgba(0,0,0,.25)"
 			>
-				<Container height="350px" align={ width > 1200 ? "start" : "center"} margin={ width > 1200 ? "0 0 0 144px" : "0"} justify={ width > 1200 ? "start" : "center"}>
-					<Container height="180px" align={ width > 1200 ? "start" : "center"} width="auto">
+				<Container height="350px" align={width > 1200 ? "start" : "center"} margin={width > 1200 ? "0 0 0 144px" : "0"} justify={width > 1200 ? "start" : "center"}>
+					<Container height="180px" align={width > 1200 ? "start" : "center"} width="auto">
 						<img src="./img/icon.svg" width="230px" alt="" />
 						<Message
 							color="white"
@@ -75,8 +75,8 @@ const Login = ({ setUser }) => {
 					</Container>
 				</Container>
 			</Container>
-			<Container width={ width > 1200 ? "40%" : "100vw"} justify="center">
-				<Container height="270px" font="Oswald" > 
+			<Container width={width > 1200 ? "40%" : "100vw"} justify="center">
+				<Container height="270px" font="Oswald" >
 					<Form
 						width="430px"
 						disabled={disabled}
