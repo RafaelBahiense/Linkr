@@ -133,7 +133,7 @@ const CreatePostContainer = styled.div`
         }
     }
 
-    @media (min-width: 750px){
+    @media (min-width: 615px){
 
         width: 611px;
         height: 209px;

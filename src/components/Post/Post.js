@@ -86,7 +86,7 @@ export default function Post(props) {
             { modalIsOpen ? <ModalScreen deleting={deleting} deletePost={deletePost} setIsOpen={setIsOpen} modalIsOpen={modalIsOpen} /> : ""}
             <div>
                 <Avatar id={props.user.id} avatar={props.user.avatar} />
-                <Likes refreshPosts={refreshPosts} {...props} />
+                <Likes {...props} />
             </div>
             <PostContentContainer>
                 <PostUserName>
@@ -130,7 +130,7 @@ const PostContainer = styled.div`
     margin: 16px 0;
     position: relative;
 
-    @media (min-width: 750px){
+    @media (min-width: 615px){
         width: 611px;
         height: 276px;
         border-radius: 16px;
@@ -160,7 +160,7 @@ const PostUserName = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    @media (min-width: 750px){
+    @media (min-width: 615px){
         span{
             font-size: 19px;
             line-height: 23px;
@@ -172,7 +172,7 @@ const PostUserName = styled.div`
     }
 `
 
-const PostContent = styled.p`
+const PostContent = styled.div`
     font-weight: 700;
     font-size: 15px;
     line-height: 18px;
@@ -200,7 +200,7 @@ const PostContent = styled.p`
         color: #FFFFFF;
     }
 
-    @media (min-width: 750px){
+    @media (min-width: 615px){
         font-size: 17px;
         line-height: 20px;
     }
@@ -208,7 +208,7 @@ const PostContent = styled.p`
 const PostContentContainer = styled.div`
     width: 100%;
     margin-left: 14px;
-    @media (min-width: 750px){
+    @media (min-width: 615px){
         width: 502px;
     }
 `

@@ -57,7 +57,7 @@ const PostLinkContainer = styled.div`
         word-break: break-all;
     }
 
-    @media (min-width: 750px){
+    @media (min-width: 615px){
         width: 503px;
         height: 155px;
 

@@ -7,7 +7,7 @@ import UserContext from '../../contexts/UserContext';
 
 export default function Likes(props) {
 
-    const { likes, id, refreshPosts } = props;
+    const { likes, id } = props;
     const [liked, setLiked] = useState(false);
     const [likedNames, setLikedNames] = useState([]);
     const [likesQuantity, setLikesQuantity] = useState(0);
@@ -125,7 +125,7 @@ const LikesContainer = styled.div`
         cursor: pointer;
     }
 
-    @media (min-width: 750px){
+    @media (min-width: 615px){
         p{
             font-size: 11px;
         }
