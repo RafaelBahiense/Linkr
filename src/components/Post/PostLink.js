@@ -9,7 +9,8 @@ export default function PostLink(props){
             <div>
                 <h4>{linkTitle}</h4>
                 <p>{linkDescription}</p>
-                <a>{link}</a>
+                <br></br>
+                <span>{link}</span>
             </div>
             <img src={linkImage}/>
         </PostLinkContainer>
@@ -51,7 +52,7 @@ const PostLinkContainer = styled.div`
         margin: 4px 0;
     }
 
-    a{
+    span{
         font-size: 9px;
         line-height: 11px;
         word-break: break-all;
