@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from '../general/Container';
 import Form from '../general/Form';
 import Input from '../general/Input';
@@ -36,23 +36,34 @@ const Login = ({ setUser }) => {
 					history.push('/timeline');
 				})
 				.catch((err) => {
-                    console.log(err);
+					console.log(err);
 					alert('Email ou senha incorretos. Tente novamente!');
 				});
 		}
 		setDisabled(false);
 	};
 
+	const [width, setWidth] = React.useState(window.innerWidth);
+	useEffect(() => {
+		const handleResizeWindow = () => setWidth(window.innerWidth);
+		window.addEventListener("resize", handleResizeWindow);
+		return () => {
+			window.removeEventListener("resize", handleResizeWindow);
+		};
+	}, []);
+
+	const align = width > 1200 ? true : false;
+
 	return (
-		<Container horizontal>
+		<Container horizontal={align}>
 			<Container
 				justify="center"
-				width="60%"
+				width={width > 1200 ? "60%" : "100vw"}
 				bgColor="#151515"
 				shadow="4px 0 4px rgba(0,0,0,.25)"
 			>
-				<Container height="350px" align="start" margin="0 0 0 144px">
-					<Container height="180px" align="start">
+				<Container height="350px" align={width > 1200 ? "start" : "center"} margin={width > 1200 ? "0 0 0 144px" : "0"} justify={width > 1200 ? "start" : "center"}>
+					<Container height="180px" align={width > 1200 ? "start" : "center"} width="auto">
 						<img src="./img/icon.svg" width="230px" alt="" />
 						<Message
 							color="white"
@@ -64,8 +75,8 @@ const Login = ({ setUser }) => {
 					</Container>
 				</Container>
 			</Container>
-			<Container width="40%" justify="center">
-				<Container height="270px" font="Oswald">
+			<Container width={width > 1200 ? "40%" : "100vw"} justify="center">
+				<Container height="270px" font="Oswald" >
 					<Form
 						width="430px"
 						disabled={disabled}
@@ -90,6 +101,7 @@ const Login = ({ setUser }) => {
 						text="First time? Create an account!"
 						color="#fff"
 						fSize="20px"
+						margin="9px 0 0 0"
 					/>
 				</Container>
 			</Container>
