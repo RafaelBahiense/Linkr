@@ -19,7 +19,6 @@ export default function TimelineLayout (props) {
 
     return (
         <>
-        <Navbar/>
         <Container width={width}>
             <h2>{props.title ? props.title : "timeline"}</h2>
             <div>

@@ -1,14 +1,12 @@
-import { useContext } from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import UserContext from '../../../contexts/UserContext';
 
 export default function Avatar(props) {
 
-    const { id, avatar } = props;
+    const { id, avatar, nolink, onClick } = props;
 
     return (
-        <Link to={`/user/${id}`}><Logo src={avatar} /></Link>
+        nolink ? <Logo src={avatar} onClick={onClick} /> : <Link to={`/user/${id}`}><Logo src={avatar} /></Link>
     );
 }
 
@@ -17,6 +15,7 @@ const Logo = styled.img`
     object-fit: cover;
     width: 40px;
     height: 40px;
+    cursor: pointer;
 
     @media (min-width: 615px){
         width: 50px;
