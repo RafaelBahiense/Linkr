@@ -26,7 +26,7 @@ export default function TimelineLayout (props) {
                 <Posts width={width}>
                     {props.createPost ? <CreatePost refreshPosts={props.refreshPosts}/> : ""}
                     {props.posts.length > 0 
-                        ? props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts}/>)
+                        ? props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes}/>)
                         : <Loader type="Rings" color="#00BFFF" height={400} width={400} />
                     }
                 </Posts>
