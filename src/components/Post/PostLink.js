@@ -1,17 +1,18 @@
 import styled from 'styled-components';
 
-export default function PostLink(props){
+export default function PostLink(props) {
 
-    const {link, linkTitle, linkDescription, linkImage} = props;
-    
-    return(
+    const { link, linkTitle, linkDescription, linkImage } = props;
+
+    return (
         <PostLinkContainer>
             <div>
                 <h4>{linkTitle}</h4>
                 <p>{linkDescription}</p>
-                <a>{link}</a>
+                <br></br>
+                <span>{link}</span>
             </div>
-            <img src={linkImage}/>
+            <img src={linkImage} />
         </PostLinkContainer>
     )
 }
@@ -51,13 +52,13 @@ const PostLinkContainer = styled.div`
         margin: 4px 0;
     }
 
-    a{
+    span{
         font-size: 9px;
         line-height: 11px;
         word-break: break-all;
     }
 
-    @media (min-width: 750px){
+    @media (min-width: 615px){
         width: 503px;
         height: 155px;
 

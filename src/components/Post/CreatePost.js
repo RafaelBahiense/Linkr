@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import UserContext from '../../contexts/UserContext';
 import Avatar from '../general/Avatar';
 
-export default function CreatePost({refreshPosts}) {
+export default function CreatePost({ refreshPosts }) {
 
     const [text, setText] = useState("");
     const [link, setLink] = useState("");
@@ -133,7 +133,7 @@ const CreatePostContainer = styled.div`
         }
     }
 
-    @media (min-width: 750px){
+    @media (min-width: 615px){
 
         width: 611px;
         height: 209px;
