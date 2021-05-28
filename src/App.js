@@ -10,10 +10,11 @@ import MyLikes from './components/Timeline/MyLikes';
 import MyPosts from './components/Timeline/MyPosts';
 import Hashtag from './components/Hashtag';
 import UserPosts from './components/UserPosts';
+import Navbar from './components/general/Navbar/Navbar';
 
 export default function App() {
 	const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
-    
+
 	if (!user && !['/', '/sign-up'].includes(window.location.pathname))
 		window.location.pathname = '/';
 	else if (user && ['/', '/sign-up'].includes(window.location.pathname))
@@ -23,6 +24,11 @@ export default function App() {
 		localStorage.setItem('user', JSON.stringify(user));
 		setUser(user);
 	};
+
+	const removeUser = () => {
+		localStorage.removeItem('user');
+		setUser(null);
+	}
 
 	return (
 		<Router>
@@ -36,6 +42,7 @@ export default function App() {
 				</Route>
 
 				<UserContext.Provider value={user}>
+					<Navbar setUser={removeUser} />
 					<Route path="/hashtag/:hashtag" exact>
 						<Hashtag />
 					</Route>
