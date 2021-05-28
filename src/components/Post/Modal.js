@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-import styled from 'styled-components';
 
 export default function ModalScreen(props) {
 

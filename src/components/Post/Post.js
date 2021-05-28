@@ -107,11 +107,14 @@ export default function Post(props) {
                             <input ref={inputElement} disabled={sendingPutRequest} onChange={(e) => setNewText(e.target.value)} type="text" value={newText || text} />
                         </form>
                     }
-                    {editing 
-                        ? "" 
-                        : (<ReactHashtag renderHashtag={(hashtagValue) => (
-                            <Link to={`/hashtag/${hashtagValue.replace("#","")}`}>{hashtagValue}</Link>
-                        )}>{newText || text}</ReactHashtag>)
+                    {editing
+                        ? ""
+                        :
+                        (<ReactHashtag renderHashtag={(hashtagValue) => (
+                            <Link to={`/hashtag/${hashtagValue.replace("#", "")}`}>{hashtagValue}</Link>
+                        )}>
+                            {newText || text}
+                        </ReactHashtag>)
                     }
                 </PostContent>
                 <a href={link} target="_blank"><PostLink {...props} /></a>

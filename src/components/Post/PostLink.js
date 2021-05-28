@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-export default function PostLink(props){
+export default function PostLink(props) {
 
-    const {link, linkTitle, linkDescription, linkImage} = props;
-    
-    return(
+    const { link, linkTitle, linkDescription, linkImage } = props;
+
+    return (
         <PostLinkContainer>
             <div>
                 <h4>{linkTitle}</h4>
@@ -12,7 +12,7 @@ export default function PostLink(props){
                 <br></br>
                 <span>{link}</span>
             </div>
-            <img src={linkImage}/>
+            <img src={linkImage} />
         </PostLinkContainer>
     )
 }

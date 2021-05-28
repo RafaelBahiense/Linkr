@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import UserContext from '../../contexts/UserContext';
 import Avatar from '../general/Avatar';
 
-export default function CreatePost({refreshPosts}) {
+export default function CreatePost({ refreshPosts }) {
 
     const [text, setText] = useState("");
     const [link, setLink] = useState("");
