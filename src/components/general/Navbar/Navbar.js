@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 
 import Avatar from "../Avatar/index";
@@ -9,7 +10,7 @@ export default function Navbar () {
     const {user} = useContext(UserContext);
     return (
         <NavbarWrapper>
-            <h1>linkr</h1>
+            <h1><Link to={"/timeline"}>linkr</Link></h1>
             <Avatar id={user.id} avatar={user.avatar}/>
         </NavbarWrapper>
     );
