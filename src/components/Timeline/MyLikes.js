@@ -34,6 +34,6 @@ export default function MyLikes (props) {
     },[refresh]);
 
     return (
-        <TimelineLayout posts={posts} title={"my likes"} refreshPosts={refreshPosts}/>
+        <TimelineLayout posts={posts} title={"my likes"} refreshPosts={refreshPosts} mylikes={true}/>
     );
 }

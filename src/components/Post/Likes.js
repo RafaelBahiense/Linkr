@@ -7,7 +7,7 @@ import UserContext from '../../contexts/UserContext';
 
 export default function Likes(props) {
 
-    const { likes, id } = props;
+    const { likes, id, mylikes} = props;
     const [liked, setLiked] = useState(false);
     const [likedNames, setLikedNames] = useState([]);
     const [likesQuantity, setLikesQuantity] = useState(0);
@@ -31,7 +31,12 @@ export default function Likes(props) {
     }
 
     useEffect(() => {
-        isLiked();
+        if(mylikes){
+            setLiked(true);
+        }else{
+            isLiked();
+        }
+        
         getLikedNames(likes);
         setLikesQuantity(likes.length);
     }, [likes]);
