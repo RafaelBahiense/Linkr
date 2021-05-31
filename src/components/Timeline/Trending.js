@@ -31,7 +31,7 @@ export default function Trending () {
         <TrendingWrapper>
             <Title>trending</Title>
             <Bar/>
-            {trending.map((hashtag) => <Link to={`/hashtag/${hashtag.name}`}><Hashtag>{`# ${hashtag.name}`}</Hashtag></Link> )}
+            {trending.map((hashtag, index) => <Link key={index} to={`/hashtag/${hashtag.name}`}><Hashtag>{`# ${hashtag.name}`}</Hashtag></Link> )}
         </TrendingWrapper>
     );
 }
