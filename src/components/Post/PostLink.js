@@ -2,20 +2,54 @@ import styled from 'styled-components';
 
 export default function PostLink(props) {
 
-    const { link, linkTitle, linkDescription, linkImage } = props;
+    const { link, linkTitle, linkDescription, linkImage, youtubeId } = props;
 
-    return (
-        <PostLinkContainer>
-            <div>
-                <h4>{linkTitle}</h4>
-                <p>{linkDescription}</p>
-                <br></br>
+    if (youtubeId && youtubeId !== "" ) {
+        return (
+            <YoutubeContainer>
+                <iframe
+                    src={`https://www.youtube.com/embed/${youtubeId}`}>
+                </iframe>
                 <span>{link}</span>
-            </div>
-            <img src={linkImage} />
-        </PostLinkContainer>
-    )
+            </YoutubeContainer>
+        )
+    } else {
+        return (
+            <PostLinkContainer> 
+                <div>
+                    <h4>{linkTitle}</h4>
+                    <p>{linkDescription}</p>
+                    <br></br>
+                    <span>{link}</span>
+                </div>
+                <img src={linkImage} />
+            </PostLinkContainer>
+        )
+    }
 }
+
+const YoutubeContainer = styled.div`
+    iframe{
+        margin-bottom: 6px;
+        min-height: 273px;
+        width: 100%;
+    }
+
+    span{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 17px;
+        line-height: 20px;
+        color: #B7B7B7;
+    }
+
+    @media (min-width: 615px){
+        iframe{
+            width: 501px;
+            height: 281px;
+        }
+    }
+`;
 
 const PostLinkContainer = styled.div`
     width: 100%;
