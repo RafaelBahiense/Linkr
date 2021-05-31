@@ -3,6 +3,7 @@ import Avatar from '../general/Avatar';
 import Likes from './Likes';
 import PostLink from './PostLink';
 import { TiPencil, TiTrash } from "react-icons/ti";
+import { FaShare } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useState, useContext, useRef, useEffect } from 'react';
 import UserContext from '../../contexts/UserContext';
@@ -10,6 +11,7 @@ import axios from 'axios';
 import ModalScreen from './Modal';
 import ReactHashtag from "react-hashtag";
 import Shares from './Shares';
+import Message from '../general/Message';
 
 
 export default function Post(props) {
@@ -23,6 +25,7 @@ export default function Post(props) {
     const myPost = (props.user.id === user.id);
     const [modalIsOpen, setIsOpen] = useState(false);
     const inputElement = useRef(null);
+    const reposted = props.repostedBy;
 
     const config = {
         headers: {
@@ -83,45 +86,48 @@ export default function Post(props) {
     }
 
     return (
-        <PostContainer>
-            { modalIsOpen ? <ModalScreen doing={deleting} title="Tem certeza que deseja excluir essa publicação?" cancelText="Não, voltar" continueText="Sim, excluir" action={deletePost} setIsOpen={setIsOpen} modalIsOpen={modalIsOpen} /> : ""}
-            <div>
-                <Avatar id={props.user.id} avatar={props.user.avatar} />
-                <Likes {...props} mylikes={mylikes} />
-                <Shares repostCount={props.repostCount} config={config} id={props.id} refreshPosts={refreshPosts} />
-            </div>
-            <PostContentContainer>
-                <PostUserName>
-                    <Link to={`/user/${props.user.id}`}>{props.user.username}</Link>
-                    {myPost
-                        ?
-                        <div>
-                            <TiPencil onClick={() => editingPost()} />
-                            <TiTrash onClick={() => setIsOpen(true)} />
-                        </div>
-                        :
-                        <div></div>
-                    }
-                </PostUserName>
-                <PostContent >
-                    {editing &&
-                        <form onSubmit={(e) => editPost(e)} onKeyDown={(key) => key.code === "Escape" && editingPost()}>
-                            <input ref={inputElement} disabled={sendingPutRequest} onChange={(e) => setNewText(e.target.value)} type="text" value={newText || text} />
-                        </form>
-                    }
-                    {editing
-                        ? ""
-                        :
-                        (<ReactHashtag renderHashtag={(hashtagValue) => (
-                            <Link to={`/hashtag/${hashtagValue.replace("#", "")}`}>{hashtagValue}</Link>
-                        )}>
-                            {newText || text}
-                        </ReactHashtag>)
-                    }
-                </PostContent>
-                <a href={link} target="_blank"><PostLink {...props} /></a>
-            </PostContentContainer>
-        </PostContainer>
+        <div style={{position: "relative", marginTop: reposted ? 56 : 0}}>
+            {reposted ? <RepostContainer><FaShare style={{color: "white", marginRight: 6}} /><Message color="white" text={`Re-posted by ${props.repostedBy.id === user.id ? "you" : props.repostedBy.username}`} /></RepostContainer> : null}
+            <PostContainer>
+                { modalIsOpen ? <ModalScreen doing={deleting} title="Tem certeza que deseja excluir essa publicação?" cancelText="Não, voltar" continueText="Sim, excluir" action={deletePost} setIsOpen={setIsOpen} modalIsOpen={modalIsOpen} /> : ""}
+                <div>
+                    <Avatar id={props.user.id} avatar={props.user.avatar} />
+                    <Likes {...props} mylikes={mylikes} />
+                    <Shares repostCount={props.repostCount} config={config} id={props.id} refreshPosts={refreshPosts} />
+                </div>
+                <PostContentContainer>
+                    <PostUserName>
+                        <Link to={`/user/${props.user.id}`}>{props.user.username}</Link>
+                        {myPost
+                            ?
+                            <div>
+                                <TiPencil onClick={() => editingPost()} />
+                                <TiTrash onClick={() => setIsOpen(true)} />
+                            </div>
+                            :
+                            <div></div>
+                        }
+                    </PostUserName>
+                    <PostContent >
+                        {editing &&
+                            <form onSubmit={(e) => editPost(e)} onKeyDown={(key) => key.code === "Escape" && editingPost()}>
+                                <input ref={inputElement} disabled={sendingPutRequest} onChange={(e) => setNewText(e.target.value)} type="text" value={newText || text} />
+                            </form>
+                        }
+                        {editing
+                            ? ""
+                            :
+                            (<ReactHashtag renderHashtag={(hashtagValue) => (
+                                <Link to={`/hashtag/${hashtagValue.replace("#", "")}`}>{hashtagValue}</Link>
+                            )}>
+                                {newText || text}
+                            </ReactHashtag>)
+                        }
+                    </PostContent>
+                    <a href={link} target="_blank"><PostLink {...props} /></a>
+                </PostContentContainer>
+            </PostContainer>
+        </div>
     );
 }
 
@@ -140,6 +146,14 @@ const PostContainer = styled.div`
         height: 276px;
         border-radius: 16px;
     }
+`;
+
+const RepostContainer = styled(PostContainer)`
+    justify-content: start;
+    background-color: #1e1e1e;
+    position: absolute;
+    bottom: 20px;
+    z-index: -10;
 `;
 
 const PostUserName = styled.div`

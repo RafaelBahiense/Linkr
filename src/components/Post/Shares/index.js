@@ -17,13 +17,12 @@ const Shares = ({ repostCount, config, id, refreshPosts }) => {
 				config
 			)
 			.then((res) => {
-				setIsOpen(false);
-                console.log({refreshPosts});
-                refreshPosts();
+				refreshPosts();
 			})
 			.catch((err) => {
 				alert('Erro! Tente Novamente');
 			});
+		setIsOpen(false);
 		setSharing(false);
 	};
 
