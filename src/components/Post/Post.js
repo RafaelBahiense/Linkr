@@ -84,11 +84,11 @@ export default function Post(props) {
 
     return (
         <PostContainer>
-            { modalIsOpen ? <ModalScreen deleting={deleting} deletePost={deletePost} setIsOpen={setIsOpen} modalIsOpen={modalIsOpen} /> : ""}
+            { modalIsOpen ? <ModalScreen doing={deleting} title="Tem certeza que deseja excluir essa publicação?" cancelText="Não, voltar" continueText="Sim, excluir" action={deletePost} setIsOpen={setIsOpen} modalIsOpen={modalIsOpen} /> : ""}
             <div>
                 <Avatar id={props.user.id} avatar={props.user.avatar} />
-                <Likes {...props} mylikes={mylikes}/>
-                <Shares repostCount={props.repostCount} />
+                <Likes {...props} mylikes={mylikes} />
+                <Shares repostCount={props.repostCount} config={config} id={props.id} refreshPosts={refreshPosts} />
             </div>
             <PostContentContainer>
                 <PostUserName>
