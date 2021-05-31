@@ -7,7 +7,7 @@ import TimelineLayout from "./TimelineLayout";
 import UserContext from "../../contexts/UserContext";
 
 export default function Timeline (props) {
-    const [posts, setPosts] =  React.useState([]);
+    const [posts, setPosts] =  React.useState(null);
     const {token} = useContext(UserContext);
 
     const history = useHistory();

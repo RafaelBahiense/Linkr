@@ -7,7 +7,7 @@ import TimelineLayout from "../Timeline/TimelineLayout";
 import UserContext from "../../contexts/UserContext";
 
 const Hashtag = () => {
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState(null);
     const {token} = useContext(UserContext);
     const {hashtag} = useParams();
 

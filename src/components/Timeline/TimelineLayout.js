@@ -23,9 +23,11 @@ export default function TimelineLayout (props) {
             <div>
                 <Posts width={width}>
                     {props.createPost ? <CreatePost refreshPosts={props.refreshPosts}/> : ""}
-                    {props.posts.length > 0 
+                    {props.posts == null 
+                        ? <LoaderWrapper width={width}><Loader type="Rings" color="#00BFFF" height={400} width={400} /></LoaderWrapper>
+                        : props.posts.length > 0
                         ? props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes}/>)
-                        : <Loader type="Rings" color="#00BFFF" height={400} width={400} />
+                        : <LoaderWrapper width={width}><p>Nenhuma postagem encontrada!</p></LoaderWrapper>
                     }
                 </Posts>
                 {width >= 940
@@ -63,4 +65,15 @@ const Container =  styled.div`
 
 const Posts = styled.div`
     max-width: ${(props) => props.width > 611 ? "611px" : "100%"};
+`;
+
+const LoaderWrapper = styled.div`
+    width: ${(props) => props.width > 611 ? "611px" : "100%"};
+    text-align: center;
+
+    & > p {
+        margin-top: 50px;
+        font-size: 25px;
+        color: white;
+    }
 `;
