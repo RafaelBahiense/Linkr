@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import React, { useEffect, useContext, useState } from "react";
+import useInterval from '@use-it/interval';
 
 import TimelineLayout from "../Timeline/TimelineLayout";
 import UserContext from "../../contexts/UserContext";
@@ -11,6 +12,11 @@ const UserPosts = () => {
     const {id} = useParams();
 
     const history = useHistory();
+    const [refresh, setRefresh] = React.useState([]);
+
+    function refreshPosts () {
+        setRefresh([...refresh]);
+    }
 
     useEffect(() => {
         const config = {
@@ -27,7 +33,11 @@ const UserPosts = () => {
             alert("Faça login novamente!");
             history.push("/");
         })
-    },[id]);
+    },[id, refresh]);
+
+    useInterval(() => {
+        refreshPosts();
+    }, 15000)
 
     return (
         <TimelineLayout posts={posts} title={`${posts[0] ? posts[0].user.username : "carregando"}'s posts`} createPost={false}/>
