@@ -70,7 +70,7 @@ export default function TimelineLayout(props) {
     return (
         <>
             <Container width={width}>
-                {props.userPost
+                {props.userPost && user.id !== id
                     ?
                     <section>
                         <div>
