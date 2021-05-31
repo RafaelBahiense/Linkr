@@ -19,9 +19,11 @@ export default function TimelineLayout(props) {
         };
     }, []);
 
-    const { id, username, avatar } = props;
+    const { id, username, avatar, timeline, posts } = props;
     const [following, setFollowing] = useState(false);
     const [disabled, setDisabled] = useState(true);
+    const [followingUsers, setFollowingUsers] = useState([]);
+
     const { token, user } = useContext(UserContext);
 
     const config = {
@@ -31,16 +33,15 @@ export default function TimelineLayout(props) {
     };
 
     useEffect(() => {
-        if (props.userPost) {
-            const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows`, config);
-            promise.catch(err => console.log(err));
-            promise.then(response => {
-                const followingUsers = response.data.users;
-                const followingThis = followingUsers.length === 0 ? false : followingUsers.filter(user => user.username === username).length;
-                setFollowing(followingThis);
-                setDisabled(false);
-            })
-        }
+        const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows`, config);
+        promise.catch(err => console.log(err));
+        promise.then(response => {
+            const followingUsers = response.data.users;
+            setFollowingUsers(followingUsers);
+            const followingThis = followingUsers.length === 0 ? false : followingUsers.filter(user => user.username === username).length;
+            setFollowing(followingThis);
+            setDisabled(false);
+        })
     }, [id])
 
     function follow() {
@@ -87,19 +88,27 @@ export default function TimelineLayout(props) {
                     </section>
                 }
                 <div>
-                    <Posts width={width}>
-                        {props.createPost ? <CreatePost refreshPosts={props.refreshPosts} /> : ""}
-                        {props.posts.length > 0
-                            ? props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes} />)
-                            : <Loader type="Rings" color="#00BFFF" height={400} width={400} />
-                        }
-                    </Posts>
-                    {width >= 940
-                        ? <div>
-                            <Trending />
-                        </div>
-                        : null
+                    {timeline ?
+                        <Posts width={width}>
+                            {props.createPost ? <CreatePost refreshPosts={props.refreshPosts} /> : ""}
+                            {followingUsers.length > 0 ?
+                                posts.length > 0 ?
+                                    posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes} />)
+                                    :
+                                    <p> Nenhuma publicação encontrada! </p>
+                                :
+                                <p> Você não segue ninguém ainda, procure por perfis na busca! </p>}
+                        </Posts>
+                        :
+                        <Posts width={width}>
+                            {props.createPost ? <CreatePost refreshPosts={props.refreshPosts} /> : ""}
+                            {posts.length > 0
+                                ? posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes} />)
+                                : <Loader type="Rings" color="#00BFFF" height={400} width={400} />
+                            }
+                        </Posts>
                     }
+                    {width >= 940 ? <div><Trending /></div> : null}
                 </div>
             </Container>
         </>
@@ -183,4 +192,9 @@ const Container = styled.div`
 
 const Posts = styled.div`
     max-width: ${(props) => props.width > 611 ? "611px" : "100%"};
+
+    & > p{
+        font-size: 30px;
+        color: #FFFFFF;
+    }
 `;
