@@ -1,15 +1,15 @@
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import Button from "../Button";
 import Avatar from '../Avatar/index';
 import Go from "../Go";
 import UserContext from '../../../contexts/UserContext';
 import { Link } from 'react-router-dom';
 import Container from '../Container';
 import { IconContext } from 'react-icons/lib';
+import SearchUsers from './SearchUsers';
 
-export default function Navbar({setUser}) {
+export default function Navbar({ setUser }) {
 	const { user } = useContext(UserContext);
 	const [menu, setMenu] = useState(false);
 
@@ -19,6 +19,7 @@ export default function Navbar({setUser}) {
 				<h1>
 					<Link to="/timeline">linkr</Link>
 				</h1>
+				<SearchUsers />
 				<Container horizontal width="90px">
 					<IconContext.Provider value={{ size: 20 }}>
 						{menu ? (
