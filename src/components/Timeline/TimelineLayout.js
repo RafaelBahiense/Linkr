@@ -45,6 +45,7 @@ const Container =  styled.div`
     margin: 0 auto;
     margin-top: 122px;
     width: ${(props) => props.width >= 940 ? "937px" : props.width > 611 ? "611px" : "100%"};
+    text-align: ${(props) => props.width >= 940 ? "none" : "center"};
 
     & > h2 {
         margin-bottom: 40px;
