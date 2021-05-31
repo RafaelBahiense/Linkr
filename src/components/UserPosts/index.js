@@ -30,7 +30,7 @@ const UserPosts = () => {
     },[id]);
 
     return (
-        <TimelineLayout posts={posts} title={`${posts[0] ? posts[0].user.username : "carregando"}'s posts`} createPost={false}/>
+        <TimelineLayout posts={posts} avatar={posts[0] ? posts[0].user.avatar : ""} username={posts[0] ? posts[0].user.username : ""} id={posts[0] ? posts[0].user.id : ""} title={`${posts[0] ? posts[0].user.username : "carregando"}'s posts`} createPost={false} userPost={true}/>
     );
 }
 
