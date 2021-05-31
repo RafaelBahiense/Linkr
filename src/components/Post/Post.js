@@ -9,6 +9,7 @@ import UserContext from '../../contexts/UserContext';
 import axios from 'axios';
 import ModalScreen from './Modal';
 import ReactHashtag from "react-hashtag";
+import Shares from './Shares';
 
 
 export default function Post(props) {
@@ -87,6 +88,7 @@ export default function Post(props) {
             <div>
                 <Avatar id={props.user.id} avatar={props.user.avatar} />
                 <Likes {...props} mylikes={mylikes}/>
+                <Shares repostCount={props.repostCount} />
             </div>
             <PostContentContainer>
                 <PostUserName>
