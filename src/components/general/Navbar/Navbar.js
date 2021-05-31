@@ -5,16 +5,17 @@ import Button from "../Button";
 import Avatar from '../Avatar/index';
 import Go from "../Go";
 import UserContext from '../../../contexts/UserContext';
+import MenuContext from '../../../contexts/MenuContext';
 import { Link } from 'react-router-dom';
 import Container from '../Container';
 import { IconContext } from 'react-icons/lib';
 
-export default function Navbar({setUser}) {
+export default function Navbar({setUser, onClick}) {
 	const { user } = useContext(UserContext);
-	const [menu, setMenu] = useState(false);
+	const { menu, setMenu } = useContext(MenuContext);
 
 	return (
-		<>
+		<div onClick={onClick}>
 			<NavbarWrapper>
 				<h1>
 					<Link to="/timeline">linkr</Link>
@@ -48,7 +49,7 @@ export default function Navbar({setUser}) {
 				<br />
 				<Go text="Logout" color="white" fSize="17px" onClick={setUser} />
 			</ContainerMenu>
-		</>
+		</div>
 	);
 }
 
@@ -60,6 +61,7 @@ const ContainerMenu = styled.div`
 	align-items: center;
 	font-family: "Lato";
 	position: fixed;
+	z-index: 20;
 	width: 130px;
 	height: 110px;
 	background-color: #151515;
