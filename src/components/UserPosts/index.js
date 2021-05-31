@@ -7,7 +7,7 @@ import TimelineLayout from "../Timeline/TimelineLayout";
 import UserContext from "../../contexts/UserContext";
 
 const UserPosts = () => {
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState(null);
     const {token} = useContext(UserContext);
     const {id} = useParams();
 
@@ -40,7 +40,7 @@ const UserPosts = () => {
     }, 15000)
 
     return (
-        <TimelineLayout posts={posts} title={`${posts[0] ? posts[0].user.username : "carregando"}'s posts`} createPost={false}/>
+        <TimelineLayout posts={posts} title={posts ? `${posts[0].user.username}'s posts` : "carregando"} createPost={false}/>
     );
 }
 
