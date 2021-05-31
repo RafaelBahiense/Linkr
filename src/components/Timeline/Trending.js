@@ -37,6 +37,7 @@ export default function Trending () {
 }
 
 const TrendingWrapper = styled.div`
+    position: fixed;
     margin-top: 16px;
     margin-left: 25px;
     height: 406px;
