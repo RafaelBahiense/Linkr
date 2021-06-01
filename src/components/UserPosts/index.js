@@ -8,13 +8,13 @@ import UserContext from "../../contexts/UserContext";
 
 const UserPosts = () => {
     const [posts, setPosts] = useState(null);
-    const {token} = useContext(UserContext);
-    const {id} = useParams();
+    const { token } = useContext(UserContext);
+    const { id } = useParams();
 
     const history = useHistory();
     const [refresh, setRefresh] = React.useState([]);
 
-    function refreshPosts () {
+    function refreshPosts() {
         setRefresh([...refresh]);
     }
 
@@ -29,19 +29,23 @@ const UserPosts = () => {
 
         request.then((res) => {
             setPosts(res.data.posts);
-        },).catch(() => {
+        }).catch(() => {
             alert("Faça login novamente!");
             history.push("/");
         })
-    },[id, refresh]);
+    }, [id, refresh]);
 
     useInterval(() => {
         refreshPosts();
     }, 15000)
 
-    return (
-        <TimelineLayout posts={posts} title={posts ? `${posts[0].user.username}'s posts` : "carregando"} createPost={false}/>
-    );
+    if (posts) {
+        return (
+            <TimelineLayout posts={posts} avatar={posts[0].user.avatar} username={posts[0].user.username} id={posts[0].user.id} title={posts[0].user.username} createPost={false} userPost={true} />
+        );
+    }else{
+        return(<></>);
+    }
 }
 
 export default UserPosts;

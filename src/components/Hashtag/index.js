@@ -8,13 +8,13 @@ import UserContext from "../../contexts/UserContext";
 
 const Hashtag = () => {
     const [posts, setPosts] = useState(null);
-    const {token} = useContext(UserContext);
-    const {hashtag} = useParams();
+    const { token } = useContext(UserContext);
+    const { hashtag } = useParams();
 
     const history = useHistory();
     const [refresh, setRefresh] = React.useState([]);
 
-    function refreshPosts () {
+    function refreshPosts() {
         setRefresh([...refresh]);
     }
 
@@ -29,18 +29,18 @@ const Hashtag = () => {
 
         request.then((res) => {
             setPosts(res.data.posts);
-        },).catch(() => {
+        }).catch(() => {
             alert("Faça login novamente!");
             history.push("/");
         })
-    },[hashtag, refresh]);
+    }, [hashtag, refresh, token]);
 
     useInterval(() => {
         refreshPosts();
     }, 15000)
 
     return (
-        <TimelineLayout posts={posts} title={`#${hashtag}`} refreshPosts={refreshPosts} createPost={false}/>
+        <TimelineLayout posts={posts} title={`#${hashtag}`} refreshPosts={refreshPosts} createPost={false} />
     );
 }
 

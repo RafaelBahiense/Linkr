@@ -4,7 +4,7 @@ export default function PostLink(props) {
 
     const { link, linkTitle, linkDescription, linkImage, youtubeId } = props;
 
-    if (youtubeId && youtubeId !== "" ) {
+    if (youtubeId && youtubeId !== "") {
         return (
             <YoutubeContainer>
                 <iframe
@@ -15,14 +15,14 @@ export default function PostLink(props) {
         )
     } else {
         return (
-            <PostLinkContainer> 
+            <PostLinkContainer>
                 <div>
                     <h4>{linkTitle}</h4>
                     <p>{linkDescription}</p>
                     <br></br>
                     <span>{link}</span>
                 </div>
-                <img src={linkImage} />
+                <img src={linkImage} alt={`imagem do ${linkTitle}`} />
             </PostLinkContainer>
         )
     }

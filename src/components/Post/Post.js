@@ -27,7 +27,7 @@ export default function Post(props) {
 	const inputElement = useRef(null);
 	const reposted = props.repostedBy;
 
-	var youtubeId = getYouTubeID(link);
+	const youtubeId = getYouTubeID(link);
 
 	const config = {
 		headers: {
@@ -101,11 +101,10 @@ export default function Post(props) {
 					<FaShare style={{ color: 'white', marginRight: 6 }} />
 					<Message
 						color="white"
-						text={`Re-posted by ${
-							props.repostedBy.id === user.id
-								? 'you'
-								: props.repostedBy.username
-						}`}
+						text={`Re-posted by ${props.repostedBy.id === user.id
+							? 'you'
+							: props.repostedBy.username
+							}`}
 					/>
 				</RepostContainer>
 			) : null}
