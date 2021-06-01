@@ -10,13 +10,10 @@ import UserContext from '../../contexts/UserContext';
 import axios from 'axios';
 import ModalScreen from './Modal';
 import ReactHashtag from "react-hashtag";
-<<<<<<< HEAD
 import Shares from './Shares';
 import Comments from './Comments';
 import Message from '../general/Message';
-=======
 import getYouTubeID from 'get-youtube-id';
->>>>>>> main
 
 
 export default function Post(props) {
