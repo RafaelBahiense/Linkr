@@ -27,7 +27,8 @@ export default function Timeline (props) {
         const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts", config)
         request.then((response) => {
             setPosts([...response.data.posts]);
-        },).catch(() => {
+        },)
+        .catch(() => {
             alert("Faça login novamente!");
             history.push("/");
         })

@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 
 export default function ModalScreen(props) {
 
-    const { modalIsOpen, setIsOpen, deletePost, deleting } = props;
+    const { modalIsOpen, setIsOpen, action, doing, title, cancelText, continueText } = props;
 
     Modal.setAppElement('.root');
 
@@ -18,10 +18,10 @@ export default function ModalScreen(props) {
                 onRequestClose={closeModal}
                 className="modal"
             >
-                <h2>Tem certeza que deseja excluir essa publicação?</h2>
+                <h2>{title}</h2>
                 <div>
-                    <button disabled={deleting} className="closeButton" onClick={closeModal}>Não, voltar</button>
-                    <button disabled={deleting} className="deleteButton" onClick={deletePost}>Sim, excluir</button>
+                    <button disabled={doing} className="closeButton" onClick={closeModal}>{cancelText}</button>
+                    <button disabled={doing} className="deleteButton" onClick={action}>{continueText}</button>
                 </div>
             </Modal>
         </div>
