@@ -1,16 +1,22 @@
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import React, { useEffect, useContext, useState } from "react";
+import useInterval from '@use-it/interval';
 
 import TimelineLayout from "../Timeline/TimelineLayout";
 import UserContext from "../../contexts/UserContext";
 
 const Hashtag = () => {
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState(null);
     const {token} = useContext(UserContext);
     const {hashtag} = useParams();
 
     const history = useHistory();
+    const [refresh, setRefresh] = React.useState([]);
+
+    function refreshPosts () {
+        setRefresh([...refresh]);
+    }
 
     useEffect(() => {
         const config = {
@@ -27,10 +33,14 @@ const Hashtag = () => {
             alert("Faça login novamente!");
             history.push("/");
         })
-    },[hashtag]);
+    },[hashtag, refresh]);
+
+    useInterval(() => {
+        refreshPosts();
+    }, 15000)
 
     return (
-        <TimelineLayout posts={posts} title={`#${hashtag}`} createPost={false}/>
+        <TimelineLayout posts={posts} title={`#${hashtag}`} refreshPosts={refreshPosts} createPost={false}/>
     );
 }
 
