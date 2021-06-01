@@ -44,6 +44,7 @@ body {
     font-weight: bold;
     color: #FFFFFF;
     padding: 38px 113px 65px 126px;
+    outline: none;
 }
 
 .modal h2{
