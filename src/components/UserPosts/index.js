@@ -8,6 +8,7 @@ import UserContext from "../../contexts/UserContext";
 
 const UserPosts = () => {
     const [posts, setPosts] = useState(null);
+    const [user, setUser] = useState(null);
     const { token } = useContext(UserContext);
     const { id } = useParams();
 
@@ -25,27 +26,43 @@ const UserPosts = () => {
             }
         }
 
-        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/posts`, config);
-
+        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}`, config);
         request.then((res) => {
-            setPosts(res.data.posts);
+
+            setUser(res.data.user);
+
+            const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/posts`, config);
+            request.then((res) => {
+
+                setPosts(res.data.posts);
+            
+            }).catch(() => {
+
+                alert("Faça login novamente!");
+                history.push("/");
+            
+            })
+
         }).catch(() => {
+
             alert("Faça login novamente!");
             history.push("/");
+
         })
+
+
     }, [id, refresh]);
 
     useInterval(() => {
         refreshPosts();
     }, 15000)
 
-    if (posts) {
-        return (
-            <TimelineLayout posts={posts} avatar={posts[0].user.avatar} username={posts[0].user.username} id={posts[0].user.id} title={posts[0].user.username} createPost={false} userPost={true} />
-        );
-    }else{
-        return(<></>);
-    }
+    return (
+        <TimelineLayout posts={posts} 
+                        user={user}
+                        title={user ? `${user.username}'s posts` : "Loading user"}
+                        userPost={true} />
+    );
 }
 
 export default UserPosts;

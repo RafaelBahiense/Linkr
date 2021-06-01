@@ -5,13 +5,12 @@ import useInterval from '@use-it/interval';
 import TimelineLayout from "./TimelineLayout";
 import UserContext from "../../contexts/UserContext";
 
-export default function Timeline(props) {
-    const [myPosts, setMyPosts] = useState([]);
+export default function Timeline() {
     const { token, user } = useContext(UserContext);
 
     const history = useHistory();
     const [refresh, setRefresh] = useState([]);
-    const [otherUsersPosts, setOtherUsersPosts] = useState([]);
+    const [otherUsersPosts, setOtherUsersPosts] = useState(null);
 
     function refreshPosts() {
         setRefresh([...refresh]);
@@ -26,7 +25,6 @@ export default function Timeline(props) {
     useEffect(() => {
         const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts", config)
         request.then((response) => {
-            setMyPosts([...response.data.posts]);
             setOtherUsersPosts([...response.data.posts.filter(post => post.user.id !== user.id)]);
         }).catch(() => {
             alert("Faça login novamente!");
@@ -39,6 +37,6 @@ export default function Timeline(props) {
     }, 15000)
 
     return (
-        <TimelineLayout posts={otherUsersPosts} createPost={true} refreshPosts={refreshPosts} timeline={true} />
+        <TimelineLayout posts={otherUsersPosts} refreshPosts={refreshPosts} timeline={true} />
     );
 }

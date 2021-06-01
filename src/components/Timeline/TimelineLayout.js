@@ -19,7 +19,8 @@ export default function TimelineLayout(props) {
         };
     }, []);
 
-    const { id, username, avatar, timeline, posts } = props;
+    const { id, username, avatar} = props.user || {};
+    const { timeline } = props;
     const [following, setFollowing] = useState(false);
     const [disabled, setDisabled] = useState(true);
     const [followingUsers, setFollowingUsers] = useState([]);
@@ -42,7 +43,7 @@ export default function TimelineLayout(props) {
             setFollowing(followingThis);
             setDisabled(false);
         })
-    }, [id])
+    }, [])
 
     function follow() {
         console.log("Following...");
@@ -69,7 +70,6 @@ export default function TimelineLayout(props) {
     }
 
     return (
-        <>
             <Container width={width}>
                 {props.userPost && user.id !== id
                     ?
@@ -88,30 +88,26 @@ export default function TimelineLayout(props) {
                     </section>
                 }
                 <div>
-                    {timeline ?
-                        <Posts width={width}>
-                            {props.createPost ? <CreatePost refreshPosts={props.refreshPosts} /> : ""}
-                            {followingUsers.length > 0 ?
-                                posts ?
-                                    posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes} />)
-                                    :
-                                    <p> Nenhuma publicação encontrada! </p>
-                                :
-                                <p> Você não segue ninguém ainda, procure por perfis na busca! </p>}
-                        </Posts>
-                        :
-                        <Posts width={width}>
-                            {props.createPost ? <CreatePost refreshPosts={props.refreshPosts} /> : ""}
-                            {posts
-                                ? posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes} />)
-                                : <Loader type="Rings" color="#00BFFF" height={400} width={400} />
-                            }
-                        </Posts>
-                    }
+                    <Posts width={width}>
+                        {timeline ? <CreatePost refreshPosts={props.refreshPosts} /> : null}
+                        {timeline
+                        ?   props.posts == null 
+                                ? <LoaderWrapper width={width}><Loader type="Rings" color="#00BFFF" height={400} width={400} /></LoaderWrapper>
+                                : followingUsers.length == 0 
+                                ? <p> Você não segue ninguém ainda, procure por perfis na busca! </p>
+                                : props.posts.length > 0
+                                ? props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes}/>)
+                                : <LoaderWrapper width={width}><p>Nenhuma postagem encontrada!</p></LoaderWrapper>
+                        :   props.posts == null 
+                                ? <LoaderWrapper width={width}><Loader type="Rings" color="#00BFFF" height={400} width={400} /></LoaderWrapper>
+                                : props.posts.length > 0
+                                ? props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes}/>)
+                                : <LoaderWrapper width={width}><p>Nenhuma postagem encontrada!</p></LoaderWrapper>
+                        }
+                    </Posts>
                     {width >= 940 ? <div><Trending /></div> : null}
                 </div>
             </Container>
-        </>
     );
 }
 
@@ -197,5 +193,16 @@ const Posts = styled.div`
     & > p{
         font-size: 30px;
         color: #FFFFFF;
+    }
+`;
+
+const LoaderWrapper = styled.div`
+    width: ${(props) => props.width > 611 ? "611px" : "100%"};
+    text-align: center;
+
+    & > p {
+        margin-top: 50px;
+        font-size: 25px;
+        color: white;
     }
 `;
