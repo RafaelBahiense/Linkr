@@ -9,6 +9,7 @@ import UserContext from '../../contexts/UserContext';
 import axios from 'axios';
 import ModalScreen from './Modal';
 import ReactHashtag from "react-hashtag";
+import getYouTubeID from 'get-youtube-id';
 
 
 export default function Post(props) {
@@ -22,6 +23,9 @@ export default function Post(props) {
     const myPost = (props.user.id === user.id);
     const [modalIsOpen, setIsOpen] = useState(false);
     const inputElement = useRef(null);
+
+    var youtubeId = getYouTubeID(link);
+    
 
     const config = {
         headers: {
@@ -117,7 +121,7 @@ export default function Post(props) {
                         </ReactHashtag>)
                     }
                 </PostContent>
-                <a href={link} target="_blank"><PostLink {...props} /></a>
+                <a href={link} target="_blank"><PostLink youtubeId={youtubeId} {...props} /></a>
             </PostContentContainer>
         </PostContainer>
     );
@@ -128,14 +132,14 @@ const PostContainer = styled.div`
     background: #171717;
     display: flex;
     justify-content: space-between;
-    height: 232px;
+    height: auto;
     padding: 9px 18px 15px 15px;
     margin: 16px 0;
     position: relative;
 
     @media (min-width: 615px){
         width: 611px;
-        height: 276px;
+        height: auto;
         border-radius: 16px;
     }
 `;
