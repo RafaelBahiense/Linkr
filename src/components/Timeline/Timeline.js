@@ -22,14 +22,19 @@ export default function Timeline() {
         }
     }
 
-    useEffect(() => {
-        const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts", config)
+    function loadPosts (id) {
+        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts${id ? "?olderThan=" + id : ""}`, config)
         request.then((response) => {
             setOtherUsersPosts([...response.data.posts.filter(post => post.user.id !== user.id)]);
-        }).catch(() => {
+        }).catch((err) => {
+            console.log(err)
             alert("Faça login novamente!");
             history.push("/");
         })
+    }
+
+    useEffect(() => {
+        loadPosts();
     }, [refresh]);
 
     useInterval(() => {
@@ -37,6 +42,6 @@ export default function Timeline() {
     }, 15000)
 
     return (
-        <TimelineLayout posts={otherUsersPosts} refreshPosts={refreshPosts} timeline={true} />
+        <TimelineLayout posts={otherUsersPosts} refreshPosts={refreshPosts} timeline={true} loadPosts={loadPosts} />
     );
 }

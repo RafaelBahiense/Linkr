@@ -7,6 +7,7 @@ import Trending from "./Trending";
 import Avatar from "../general/Avatar";
 import UserContext from "../../contexts/UserContext";
 import axios from "axios";
+import InfiniteScroll from 'react-infinite-scroller';
 
 export default function TimelineLayout(props) {
 
@@ -92,7 +93,12 @@ export default function TimelineLayout(props) {
                         {props.posts == null 
                             ? <LoaderWrapper width={width}><Loader type="Rings" color="#00BFFF" height={400} width={400} /></LoaderWrapper>
                             : props.posts.length > 0
-                            ? props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes}/>)
+                            ? <InfiniteScroll loadMore={() => props.loadPosts(props.posts[props.posts.length - 1].id)}
+                                              loader={<LoaderWrapper width={width}><Loader type="Rings" color="#00BFFF" height={400} width={400} /></LoaderWrapper>}
+                                              hasMore={true}
+                              >
+                                {props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes}/>)}
+                              </InfiniteScroll>
                             : timeline 
                             ? followingUsers.length == 0 
                             ? <LoaderWrapper width={width}><p>Você não segue ninguém ainda, procure por perfis na busca!</p></LoaderWrapper>
