@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import React, { useEffect, useContext } from "react";
+import useInterval from '@use-it/interval';
 
 import TimelineLayout from "./TimelineLayout";
 import UserContext from "../../contexts/UserContext";
 
 export default function MyPosts() {
-    const [posts, setPosts] =  React.useState([]);
+    const [posts, setPosts] =  React.useState(null);
     const {user, token} = useContext(UserContext);
 
     const history = useHistory();
@@ -32,6 +33,10 @@ export default function MyPosts() {
             history.push("/");
         })
     },[refresh]);
+
+    useInterval(() => {
+        refreshPosts();
+    }, 15000)
 
     return (
         <TimelineLayout posts={posts} title={"my posts"} refreshPosts={refreshPosts}/>

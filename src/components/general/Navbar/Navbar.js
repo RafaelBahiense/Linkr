@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import Avatar from '../Avatar/index';
@@ -10,7 +10,7 @@ import Container from '../Container';
 import { IconContext } from 'react-icons/lib';
 import SearchUsers from './SearchUsers';
 
-export default function Navbar({setUser, onClick}) {
+export default function Navbar({ setUser, onClick }) {
 	const { user } = useContext(UserContext);
 	const { menu, setMenu } = useContext(MenuContext);
 

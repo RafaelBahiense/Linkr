@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import React, { useState, useEffect, useContext } from "react";
-
+import useInterval from '@use-it/interval';
 import TimelineLayout from "./TimelineLayout";
 import UserContext from "../../contexts/UserContext";
 
@@ -33,6 +33,10 @@ export default function Timeline(props) {
             history.push("/");
         })
     }, [refresh]);
+
+    useInterval(() => {
+            refreshPosts();
+    }, 15000)
 
     return (
         <TimelineLayout posts={otherUsersPosts} createPost={true} refreshPosts={refreshPosts} timeline={true} />

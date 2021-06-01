@@ -92,7 +92,7 @@ export default function TimelineLayout(props) {
                         <Posts width={width}>
                             {props.createPost ? <CreatePost refreshPosts={props.refreshPosts} /> : ""}
                             {followingUsers.length > 0 ?
-                                posts.length > 0 ?
+                                posts ?
                                     posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes} />)
                                     :
                                     <p> Nenhuma publicação encontrada! </p>
@@ -102,7 +102,7 @@ export default function TimelineLayout(props) {
                         :
                         <Posts width={width}>
                             {props.createPost ? <CreatePost refreshPosts={props.refreshPosts} /> : ""}
-                            {posts.length > 0
+                            {posts
                                 ? posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes} />)
                                 : <Loader type="Rings" color="#00BFFF" height={400} width={400} />
                             }
@@ -163,6 +163,7 @@ const Container = styled.div`
     margin: 0 auto;
     margin-top: 122px;
     width: ${(props) => props.width >= 940 ? "937px" : props.width > 611 ? "611px" : "100%"};
+    text-align: ${(props) => props.width >= 940 ? "none" : "center"};
 
     section {
         display: flex;

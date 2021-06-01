@@ -25,7 +25,7 @@ export default function Post(props) {
     const inputElement = useRef(null);
 
     var youtubeId = getYouTubeID(link);
-    
+
 
     const config = {
         headers: {
@@ -90,7 +90,7 @@ export default function Post(props) {
             { modalIsOpen ? <ModalScreen deleting={deleting} deletePost={deletePost} setIsOpen={setIsOpen} modalIsOpen={modalIsOpen} /> : ""}
             <div>
                 <Avatar id={props.user.id} avatar={props.user.avatar} />
-                <Likes {...props} mylikes={mylikes}/>
+                <Likes {...props} mylikes={mylikes} />
             </div>
             <PostContentContainer>
                 <PostUserName>
@@ -121,7 +121,7 @@ export default function Post(props) {
                         </ReactHashtag>)
                     }
                 </PostContent>
-                <a href={link} target="_blank"><PostLink youtubeId={youtubeId} {...props} /></a>
+                <a href={link} target="_blank" rel="noreferrer"><PostLink youtubeId={youtubeId} {...props} /></a>
             </PostContentContainer>
         </PostContainer>
     );
