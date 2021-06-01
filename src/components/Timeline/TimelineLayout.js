@@ -25,7 +25,7 @@ export default function TimelineLayout(props) {
     const [disabled, setDisabled] = useState(true);
     const [followingUsers, setFollowingUsers] = useState([]);
 
-    const { token, user } = useContext(UserContext);
+    const { token } = useContext(UserContext);
 
     const config = {
         headers: {
@@ -50,7 +50,7 @@ export default function TimelineLayout(props) {
         setFollowing(true);
 
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/follow`, {}, config);
-        promise.catch(err => {
+        promise.catch(() => {
             setFollowing(false);
             alert("Follow error!");
         });
@@ -62,7 +62,7 @@ export default function TimelineLayout(props) {
         setFollowing(false);
 
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/unfollow`, {}, config);
-        promise.catch(err => {
+        promise.catch(() => {
             setFollowing(true);
             alert("Unfollow error!");
         });
@@ -71,22 +71,21 @@ export default function TimelineLayout(props) {
 
     return (
             <Container width={width}>
-                {props.userPost && user.id !== id
-                    ?
                     <section>
                         <div>
-                            <Avatar avatar={avatar} nolink />
+                            {id
+                                ? <Avatar avatar={avatar} nolink />
+                                : null
+                            }
                             <h2>{props.title ? props.title : "timeline"}</h2>
                         </div>
-                        {following ? <ButtonUnFollow disabled={disabled} onClick={() => unFollow()}> Unfollow </ButtonUnFollow> : <ButtonFollow disabled={disabled} onClick={() => follow()}> Follow </ButtonFollow>}
+                        {id 
+                            ? following 
+                            ? <ButtonUnFollow disabled={disabled} onClick={() => unFollow()}> Unfollow </ButtonUnFollow> 
+                            : <ButtonFollow disabled={disabled} onClick={() => follow()}> Follow </ButtonFollow>
+                            : null
+                        }
                     </section>
-                    :
-                    <section>
-                        <div>
-                            <h2>{props.title ? props.title : "timeline"}</h2>
-                        </div>
-                    </section>
-                }
                 <div>
                     <Posts width={width}>
                         {timeline ? <CreatePost refreshPosts={props.refreshPosts} /> : null}
