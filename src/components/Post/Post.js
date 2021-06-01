@@ -11,6 +11,7 @@ import axios from 'axios';
 import ModalScreen from './Modal';
 import ReactHashtag from "react-hashtag";
 import Shares from './Shares';
+import Comments from './Comments';
 import Message from '../general/Message';
 
 
@@ -93,6 +94,7 @@ export default function Post(props) {
                 <div>
                     <Avatar id={props.user.id} avatar={props.user.avatar} />
                     <Likes {...props} mylikes={mylikes} />
+                    <Comments commentCount={props.commentCount} />
                     <Shares repostCount={props.repostCount} config={config} id={props.id} refreshPosts={refreshPosts} />
                 </div>
                 <PostContentContainer>
