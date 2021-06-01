@@ -10,9 +10,13 @@ import UserContext from '../../contexts/UserContext';
 import axios from 'axios';
 import ModalScreen from './Modal';
 import ReactHashtag from "react-hashtag";
+<<<<<<< HEAD
 import Shares from './Shares';
 import Comments from './Comments';
 import Message from '../general/Message';
+=======
+import getYouTubeID from 'get-youtube-id';
+>>>>>>> main
 
 
 export default function Post(props) {
@@ -27,6 +31,9 @@ export default function Post(props) {
     const [modalIsOpen, setIsOpen] = useState(false);
     const inputElement = useRef(null);
     const reposted = props.repostedBy;
+
+    var youtubeId = getYouTubeID(link);
+    
 
     const config = {
         headers: {
@@ -138,14 +145,14 @@ const PostContainer = styled.div`
     background: #171717;
     display: flex;
     justify-content: space-between;
-    height: 232px;
+    height: auto;
     padding: 9px 18px 15px 15px;
     margin: 16px 0;
     position: relative;
 
     @media (min-width: 615px){
         width: 611px;
-        height: 276px;
+        height: auto;
         border-radius: 16px;
     }
 `;
