@@ -30,7 +30,6 @@ export default function SearchUsers() {
             const ordenedUsers = following.concat(unFollowing);
 
             setUsers(ordenedUsers);
-            console.log(ordenedUsers);
         });
 
     }, [inputValue])
