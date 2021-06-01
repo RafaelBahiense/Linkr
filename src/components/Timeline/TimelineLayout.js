@@ -43,7 +43,7 @@ export default function TimelineLayout(props) {
             setFollowing(followingThis);
             setDisabled(false);
         })
-    }, [])
+    }, [id])
 
     function follow() {
         console.log("Following...");
@@ -89,19 +89,15 @@ export default function TimelineLayout(props) {
                 <div>
                     <Posts width={width}>
                         {timeline ? <CreatePost refreshPosts={props.refreshPosts} /> : null}
-                        {timeline
-                        ?   props.posts == null 
-                                ? <LoaderWrapper width={width}><Loader type="Rings" color="#00BFFF" height={400} width={400} /></LoaderWrapper>
-                                : followingUsers.length == 0 
-                                ? <p> Você não segue ninguém ainda, procure por perfis na busca! </p>
-                                : props.posts.length > 0
-                                ? props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes}/>)
-                                : <LoaderWrapper width={width}><p>Nenhuma postagem encontrada!</p></LoaderWrapper>
-                        :   props.posts == null 
-                                ? <LoaderWrapper width={width}><Loader type="Rings" color="#00BFFF" height={400} width={400} /></LoaderWrapper>
-                                : props.posts.length > 0
-                                ? props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes}/>)
-                                : <LoaderWrapper width={width}><p>Nenhuma postagem encontrada!</p></LoaderWrapper>
+                        {props.posts == null 
+                            ? <LoaderWrapper width={width}><Loader type="Rings" color="#00BFFF" height={400} width={400} /></LoaderWrapper>
+                            : props.posts.length > 0
+                            ? props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes}/>)
+                            : timeline 
+                            ? followingUsers.length == 0 
+                            ? <LoaderWrapper width={width}><p>Você não segue ninguém ainda, procure por perfis na busca!</p></LoaderWrapper>
+                            : <LoaderWrapper width={width}><p>Nenhuma postagem encontrada!</p></LoaderWrapper>
+                            : <LoaderWrapper width={width}><p>Nenhuma postagem encontrada!</p></LoaderWrapper>
                         }
                     </Posts>
                     {width >= 940 ? <div><Trending /></div> : null}
