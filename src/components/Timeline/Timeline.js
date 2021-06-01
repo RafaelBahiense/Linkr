@@ -35,7 +35,7 @@ export default function Timeline(props) {
     }, [refresh]);
 
     useInterval(() => {
-            refreshPosts();
+        refreshPosts();
     }, 15000)
 
     return (
