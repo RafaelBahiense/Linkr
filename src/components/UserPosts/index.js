@@ -39,9 +39,13 @@ const UserPosts = () => {
         refreshPosts();
     }, 15000)
 
-    return (
-        <TimelineLayout posts={posts} avatar={posts ? posts[0].user.avatar : ""} username={posts ? posts[0].user.username : ""} id={posts ? posts[0].user.id : ""} title={posts ? posts[0].user.username : "carregando"} createPost={false} userPost={true} />
-    );
+    if (posts) {
+        return (
+            <TimelineLayout posts={posts} avatar={posts[0].user.avatar} username={posts[0].user.username} id={posts[0].user.id} title={posts[0].user.username} createPost={false} userPost={true} />
+        );
+    }else{
+        return(<></>);
+    }
 }
 
 export default UserPosts;
