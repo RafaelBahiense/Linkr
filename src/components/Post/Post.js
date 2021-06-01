@@ -24,7 +24,7 @@ export default function Post(props) {
     const [modalIsOpen, setIsOpen] = useState(false);
     const inputElement = useRef(null);
 
-    var youtubeId = getYouTubeID(link);
+    const youtubeId = getYouTubeID(link);
 
 
     const config = {
