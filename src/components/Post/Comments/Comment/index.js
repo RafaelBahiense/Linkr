@@ -5,7 +5,7 @@ import Avatar from '../../../general/Avatar';
 import Container from '../../../general/Container';
 import Message from '../../../general/Message';
 
-const Comment = ({ config, text, poster }) => {
+const Comment = ({ config, text, commenter, postOwner }) => {
 	const { user } = useContext(UserContext);
 	const [follows, setFollows] = useState([]);
 
@@ -26,21 +26,21 @@ const Comment = ({ config, text, poster }) => {
 	return (
 		<>
 			<Container horizontal margin="16px">
-				<Avatar avatar={poster.avatar} width="35px" id={poster.id} />
+				<Avatar avatar={commenter.avatar} width="35px" id={commenter.id} />
 				<Container margin="0 18px" height="35px" align="start">
 					<div>
 						<Message
-							text={poster.username}
+							text={commenter.username}
 							color="#f3f3f3"
 							size="14px"
 						/>
-						{user.id === poster.id ? (
+						{commenter.id === postOwner.id ? (
 							<Message
 								text=" • post’s author"
 								color="#565656"
 								size="14px"
 							/>
-						) : follows.includes(poster.id) ? (
+						) : follows.includes(commenter.id) ? (
 							<Message
 								text=" • following"
 								color="#565656"

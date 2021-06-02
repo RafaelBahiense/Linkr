@@ -4,8 +4,9 @@ import Loader from 'react-loader-spinner';
 import Container from '../../general/Container';
 import Message from '../../general/Message';
 import Comment from './Comment';
+import CommentWrite from './CommentWrite';
 
-const Comments = ({ config, id, clicked }) => {
+const Comments = ({ config, id, clicked, postOwner }) => {
 	const [comments, setComments] = useState(null);
 
 	useEffect(() => {
@@ -20,9 +21,10 @@ const Comments = ({ config, id, clicked }) => {
 			.catch((err) => {
 				alert('Erro! Tente novamente!');
 			});
-	}, [clicked]);
+	}, [clicked, comments]);
 
 	return (
+		<>
 		<Container>
 			{comments === null ? (
 				<Loader
@@ -33,12 +35,14 @@ const Comments = ({ config, id, clicked }) => {
 				/>
 			) : comments[0] ? (
 				comments.map((c) => (
-					<Comment config={config} text={c.text} poster={c.user} />
+					<Comment config={config} text={c.text} commenter={c.user} postOwner={postOwner} />
 				))
 			) : (
 				<Message text="Ainda não há comentários" color="white" />
 			)}
 		</Container>
+		<CommentWrite config={config} id={id} />
+		</>
 	);
 };
 

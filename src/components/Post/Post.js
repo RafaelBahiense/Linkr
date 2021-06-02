@@ -197,8 +197,7 @@ export default function Post(props) {
 			</PostContainer>
 			{comments ? (
 				<CommentsContainer>
-					<Comments config={config} id={props.id} clicked={comments} />
-					<CommentWrite config={config} id={props.id} />
+					<Comments postOwner={props.user} config={config} id={props.id} clicked={comments} />
 				</CommentsContainer>
 			) : null}
 		</div>
@@ -209,6 +208,7 @@ const PostContainer = styled.div`
 	font-family: 'Lato', sans-serif;
 	background: #171717;
 	display: flex;
+	z-index: 2;
 	justify-content: space-between;
 	height: auto;
 	padding: 9px 18px 15px 15px;
@@ -237,8 +237,8 @@ const CommentsContainer = styled(PostContainer)`
 	background-color: #1e1e1e;
 	position: relative;
 	padding-top: 50px;
-	margin-top: -65px;
-	z-index: -10;
+	margin-top: -60px;
+	z-index: 1;
 `;
 
 const PostUserName = styled.div`
