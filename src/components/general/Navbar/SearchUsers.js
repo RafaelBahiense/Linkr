@@ -26,7 +26,6 @@ export default function SearchUsers(props) {
         config
       );
 
-      promise.catch((err) => console.log(err));
       promise.then((response) => {
         const users = response.data.users;
         const following = users.filter((user) => user.isFollowingLoggedUser);
