@@ -7,6 +7,7 @@ import Trending from "./Trending";
 import Avatar from "../general/Avatar";
 import UserContext from "../../contexts/UserContext";
 import axios from "axios";
+import SearchUsers from "../general/Navbar/SearchUsers";
 
 export default function TimelineLayout(props) {
 
@@ -70,7 +71,9 @@ export default function TimelineLayout(props) {
 
     return (
         <>
+        { (timeline && width <= 850) && <SearchUsers/>}
             <Container width={width}>
+                
                 {props.userPost && user.id !== id
                     ?
                     <section>
