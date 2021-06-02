@@ -13,12 +13,14 @@ const Input = ({
 	radius,
 	onClick,
 	fColor,
+	pColor,
 	font,
 	fSize,
 	fWeight,
 	border,
 	padding,
 	cursor,
+	outline,
 }) => {
 	const {value, setValue} = data || {};
 	return (
@@ -27,12 +29,14 @@ const Input = ({
 			height={height}
 			color={color}
 			fColor={fColor}
+			pColor={pColor}
 			fWeight={fWeight}
 			font={font}
 			fSize={fSize}
 			onClick={onClick}
 			radius={radius}
 			border={border}
+			outline={outline}
 			padding={padding}
 			cursor={cursor}
 			placeholder={text}

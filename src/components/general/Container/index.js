@@ -18,6 +18,7 @@ const Container = ({
 	onClick,
 	cursor,
 	font,
+	border,
 	shadow
 }) => {
 	return (
@@ -36,6 +37,7 @@ const Container = ({
 			minH={minH}
 			minW={minW}
 			maxW={maxW}
+			border={border}
 			font={font}
 			shadow={shadow}
 		>

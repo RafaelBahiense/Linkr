@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledComments = styled.div`
+const StyledCommentsIcon = styled.div`
 	color: white;
 	display: flex;
 	align-items: center;
@@ -28,4 +28,4 @@ const StyledComments = styled.div`
 	}
 `;
 
-export default StyledComments;
+export default StyledCommentsIcon;
