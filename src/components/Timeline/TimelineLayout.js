@@ -95,7 +95,8 @@ export default function TimelineLayout(props) {
                             : props.posts.length > 0
                             ? <InfiniteScroll loadMore={() => props.loadPosts(props.posts[props.posts.length - 1].id)}
                                               loader={<LoaderWrapper width={width}><Loader type="Rings" color="#00BFFF" height={400} width={400} /></LoaderWrapper>}
-                                              hasMore={true}
+                                              hasMore={props.hasMore}
+                                              pageStart={0}
                               >
                                 {props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes}/>)}
                               </InfiniteScroll>

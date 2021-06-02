@@ -11,6 +11,7 @@ export default function Timeline() {
     const history = useHistory();
     const [refresh, setRefresh] = useState([]);
     const [otherUsersPosts, setOtherUsersPosts] = useState(null);
+    const [hasMore, setHasMore] = useState(true);
 
     function refreshPosts() {
         setRefresh([...refresh]);
@@ -23,14 +24,31 @@ export default function Timeline() {
     }
 
     function loadPosts (id) {
-        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts${id ? "?olderThan=" + id : ""}`, config)
-        request.then((response) => {
-            setOtherUsersPosts([...response.data.posts.filter(post => post.user.id !== user.id)]);
-        }).catch((err) => {
-            console.log(err)
-            alert("Faça login novamente!");
-            history.push("/");
-        })
+        if (id) {
+            console.log(id);
+            const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts?olderThan=${id}`, config)
+            request.then((response) => {
+                if(response.data.posts.length > 0) {
+                    setOtherUsersPosts([...otherUsersPosts,...response.data.posts.filter(post => post.user.id !== user.id)]);
+                } else {
+                    setHasMore(false);
+                }
+            }).catch((err) => {
+                console.log(err)
+                alert("Faça login novamente!");
+                history.push("/");
+            })
+        } else {
+            const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts`, config)
+            request.then((response) => {
+                setOtherUsersPosts([...response.data.posts.filter(post => post.user.id !== user.id)]);
+            }).catch((err) => {
+                console.log(err)
+                alert("Faça login novamente!");
+                history.push("/");
+            }) 
+        }
+        console.log(otherUsersPosts)
     }
 
     useEffect(() => {
@@ -42,6 +60,6 @@ export default function Timeline() {
     }, 15000)
 
     return (
-        <TimelineLayout posts={otherUsersPosts} refreshPosts={refreshPosts} timeline={true} loadPosts={loadPosts} />
+        <TimelineLayout posts={otherUsersPosts} refreshPosts={refreshPosts} timeline={true} loadPosts={loadPosts} hasMore={hasMore}/>
     );
 }
