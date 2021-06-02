@@ -40,8 +40,7 @@ const UserPosts = () => {
                     } else {
                         setHasMore(false);
                     }
-                }).catch((res) => {
-                    console.log(res);
+                }).catch(() => {
                     alert("Faça login novamente!");
                     history.push("/");
                 })
