@@ -64,6 +64,7 @@ const SearchContainer = styled.div`
   margin-bottom: ${(props) => (props.width > 850 ? "0" : "-100px")};
   width: ${(props) => (props.width > 850 ? "60%" : "70%")};
   height: ${(props) => (props.width > 850 ? "100%" : "45px")};
+  max-width: 563px;
 
   input {
     height: 100%;
