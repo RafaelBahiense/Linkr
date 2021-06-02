@@ -10,7 +10,7 @@ export default function SearchUsers(props) {
   const [inputValue, setInputValue] = useState("");
   const [users, setUsers] = useState([]);
   const [onFocusInput, setOnFocusInput] = useState(false);
-  
+
   const { token } = useContext(UserContext);
 
   const config = {
@@ -39,7 +39,11 @@ export default function SearchUsers(props) {
   }, [inputValue]);
 
   return (
-    <SearchContainer width={props.width} valueSize={inputValue.length} onFocusInput={onFocusInput}>
+    <SearchContainer
+      width={props.width}
+      valueSize={inputValue.length}
+      onFocusInput={onFocusInput}
+    >
       <DebounceInput
         minLength={3}
         debounceTimeout={300}
@@ -66,7 +70,8 @@ const SearchContainer = styled.div`
   z-index: 11;
   margin: 0 auto;
   background: #e7e7e7;
-  border-radius: ${(props) => (props.valueSize >= 3 && props.onFocusInput ? "8px 8px 0 0" : "8px")};
+  border-radius: ${(props) =>
+    props.valueSize >= 3 && props.onFocusInput ? "8px 8px 0 0" : "8px"};
   margin-top: ${(props) => (props.width > 850 ? "0" : "90px")};
   margin-bottom: ${(props) => (props.width > 850 ? "0" : "-100px")};
   width: ${(props) => (props.width > 850 ? "60%" : "70%")};
