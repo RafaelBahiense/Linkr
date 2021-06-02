@@ -24,6 +24,7 @@ export default function Post(props) {
 	const [newText, setNewText] = useState('');
 	const myPost = props.user.id === user.id;
 	const [modalIsOpen, setIsOpen] = useState(false);
+	const [previewIsOpen, setPreviewIsOpen] = useState(false);
 	const inputElement = useRef(null);
 	const reposted = props.repostedBy;
 
@@ -122,6 +123,16 @@ export default function Post(props) {
 				) : (
 					''
 				)}
+				{previewIsOpen ? (
+					<ModalScreen
+						link={link}
+						setIsOpen={setPreviewIsOpen}
+						modalIsOpen={previewIsOpen}
+						preview
+					/>
+				) : (
+					''
+				)}
 				<div>
 					<Avatar id={props.user.id} avatar={props.user.avatar} />
 					<Likes {...props} mylikes={mylikes} />
@@ -183,7 +194,7 @@ export default function Post(props) {
 							</ReactHashtag>
 						)}
 					</PostContent>
-					<a href={link} target="_blank">
+					<a onClick={() => setPreviewIsOpen(true)}>
 						<PostLink youtubeId={youtubeId} {...props} />
 					</a>
 				</PostContentContainer>
