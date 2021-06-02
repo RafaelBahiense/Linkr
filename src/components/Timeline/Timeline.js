@@ -23,36 +23,30 @@ export default function Timeline() {
         }
     }
 
-    function loadPosts (id) {
-        console.log(id);
-        if (id) {
-            const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts?olderThan=${id}`, config)
+    function loadPosts (idPost) {
+        if (idPost) {
+            const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts?olderThan=${idPost}`, config)
             request.then((response) => {
                 if(response.data.posts.length > 0) {
                     setOtherUsersPosts([...otherUsersPosts,...response.data.posts.filter(post => post.user.id !== user.id)]);
                 } else {
                     setHasMore(false);
                 }
-            }).catch((err) => {
-                console.log(err)
+            }).catch(() => {
                 alert("Faça login novamente!");
                 history.push("/");
             })
-            console.log("older posts")
         } else {
             const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts`, config)
             request.then((response) => {
                 otherUsersPosts
                 ? setOtherUsersPosts([...new Set([...response.data.posts.filter(post => post.user.id !== user.id), ...otherUsersPosts])])
                 : setOtherUsersPosts([...response.data.posts.filter(post => post.user.id !== user.id)])
-            }).catch((err) => {
-                console.log(err)
+            }).catch(() => {
                 alert("Faça login novamente!");
                 history.push("/");
             })
-            console.log("normal load");
         }
-        console.log(otherUsersPosts)
     }
 
     useEffect(() => {

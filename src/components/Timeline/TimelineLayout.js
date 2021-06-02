@@ -47,7 +47,6 @@ export default function TimelineLayout(props) {
     }, [id])
 
     function follow() {
-        console.log("Following...");
         setFollowing(true);
 
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/follow`, {}, config);
@@ -59,7 +58,6 @@ export default function TimelineLayout(props) {
     }
 
     function unFollow() {
-        console.log("UnFollowing...");
         setFollowing(false);
 
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/unfollow`, {}, config);
@@ -93,8 +91,7 @@ export default function TimelineLayout(props) {
                         {props.posts == null 
                             ? <LoaderWrapper width={width}><Loader type="Rings" color="#00BFFF" height={400} width={400} /></LoaderWrapper>
                             : props.posts.length > 0
-                            ? <InfiniteScroll loadMore={() => { console.log(props.posts);
-                                                                props.loadPosts(props.posts[props.posts.length - 1].id)}}
+                            ? <InfiniteScroll loadMore={() => props.loadPosts(props.posts[props.posts.length - 1].id)}
                                               loader={<LoaderWrapper width={width}><Loader type="Rings" color="#00BFFF" height={400} width={400} /></LoaderWrapper>}
                                               hasMore={props.hasMore}
                                               pageStart={0}

@@ -14,43 +14,56 @@ const UserPosts = () => {
 
     const history = useHistory();
     const [refresh, setRefresh] = React.useState([]);
+    const [hasMore, setHasMore] = useState(true);
 
     function refreshPosts() {
         setRefresh([...refresh]);
     }
 
-    useEffect(() => {
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
         }
+    }
+
+    function loadPosts (idPost) {
 
         const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}`, config);
         request.then((res) => {
-
             setUser(res.data.user);
 
-            const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/posts`, config);
-            request.then((res) => {
-
-                setPosts(res.data.posts);
-            
-            }).catch(() => {
-
-                alert("Faça login novamente!");
-                history.push("/");
-            
-            })
-
+            if (idPost) {
+                const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/posts?olderThan=${idPost}`, config)
+                request.then((response) => {
+                    if(response.data.posts.length > 0) {
+                        setPosts([...posts,...response.data.posts]);
+                    } else {
+                        setHasMore(false);
+                    }
+                }).catch((res) => {
+                    console.log(res);
+                    alert("Faça login novamente!");
+                    history.push("/");
+                })
+            } else {
+                const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/posts`, config)
+                request.then((response) => {
+                    posts
+                    ? setPosts([...new Set(...response.data.posts, ...posts)])
+                    : setPosts([...response.data.posts])
+                }).catch((res) => {
+                    alert("Faça login novamente!");
+                    history.push("/");
+                })
+            }
         }).catch(() => {
-
             alert("Faça login novamente!");
             history.push("/");
-
         })
+    }
 
-
+    useEffect(() => {
+        loadPosts();
     }, [id, refresh]);
 
     useInterval(() => {
@@ -61,7 +74,10 @@ const UserPosts = () => {
         <TimelineLayout posts={posts} 
                         user={user}
                         title={user ? `${user.username}'s posts` : "Loading user"}
-                        userPost={true} />
+                        userPost={true}
+                        loadPosts={loadPosts}
+                        hasMore={hasMore}
+        />
     );
 }
 
