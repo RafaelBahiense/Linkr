@@ -8,6 +8,7 @@ import Avatar from "../general/Avatar";
 import UserContext from "../../contexts/UserContext";
 import axios from "axios";
 import SearchUsers from "../general/Navbar/SearchUsers";
+import InfiniteScroll from "react-infinite-scroller";
 
 export default function TimelineLayout(props) {
   const [width, setWidth] = React.useState(window.innerWidth);
@@ -19,12 +20,13 @@ export default function TimelineLayout(props) {
     };
   }, []);
 
-  const { id, username, avatar, timeline, posts } = props;
+  const { id, avatar } = props.user || {};
+  const { timeline, posts } = props;
   const [following, setFollowing] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [followingUsers, setFollowingUsers] = useState([]);
 
-  const { token, user } = useContext(UserContext);
+  const { token } = useContext(UserContext);
 
   const config = {
     headers: {
@@ -37,21 +39,20 @@ export default function TimelineLayout(props) {
       `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows`,
       config
     );
-    promise.catch((err) => console.log(err));
+
     promise.then((response) => {
       const followingUsers = response.data.users;
       setFollowingUsers(followingUsers);
       const followingThis =
         followingUsers.length === 0
           ? false
-          : followingUsers.filter((user) => user.username === username).length;
+          : followingUsers.filter((user) => user.id === id).length;
       setFollowing(followingThis);
       setDisabled(false);
     });
   }, [id]);
 
   function follow() {
-    console.log("Following...");
     setFollowing(true);
 
     const promise = axios.post(
@@ -59,15 +60,14 @@ export default function TimelineLayout(props) {
       {},
       config
     );
-    promise.catch((err) => {
+
+    promise.catch(() => {
       setFollowing(false);
       alert("Follow error!");
     });
-    promise.then((response) => console.log(response));
   }
 
   function unFollow() {
-    console.log("UnFollowing...");
     setFollowing(false);
 
     const promise = axios.post(
@@ -75,24 +75,24 @@ export default function TimelineLayout(props) {
       {},
       config
     );
-    promise.catch((err) => {
+
+    promise.catch(() => {
       setFollowing(true);
       alert("Unfollow error!");
     });
-    promise.then((response) => console.log(response));
   }
 
   return (
     <>
       {timeline && width <= 850 && <SearchUsers />}
       <Container width={width}>
-        {props.userPost && user.id !== id ? (
-          <section>
-            <div>
-              <Avatar avatar={avatar} nolink />
-              <h2>{props.title ? props.title : "timeline"}</h2>
-            </div>
-            {following ? (
+        <section>
+          <div>
+            {id ? <Avatar avatar={avatar} nolink /> : null}
+            <h2>{props.title ? props.title : "timeline"}</h2>
+          </div>
+          {id ? (
+            following ? (
               <ButtonUnFollow disabled={disabled} onClick={() => unFollow()}>
                 {" "}
                 Unfollow{" "}
@@ -102,64 +102,60 @@ export default function TimelineLayout(props) {
                 {" "}
                 Follow{" "}
               </ButtonFollow>
-            )}
-          </section>
-        ) : (
-          <section>
-            <div>
-              <h2>{props.title ? props.title : "timeline"}</h2>
-            </div>
-          </section>
-        )}
+            )
+          ) : null}
+        </section>
         <div>
-          {timeline ? (
-            <Posts width={width}>
-              {props.createPost ? (
-                <CreatePost refreshPosts={props.refreshPosts} />
-              ) : (
-                ""
-              )}
-              {followingUsers.length > 0 ? (
-                posts ? (
-                  posts.map((post, index) => (
-                    <Post
-                      key={index}
-                      {...post}
-                      refreshPosts={props.refreshPosts}
-                      mylikes={props.mylikes}
+          <Posts width={width}>
+            {timeline ? <CreatePost refreshPosts={props.refreshPosts} /> : null}
+            {posts == null ? (
+              <LoaderWrapper width={width}>
+                <Loader type="Rings" color="#00BFFF" height={400} width={400} />
+              </LoaderWrapper>
+            ) : posts.length > 0 ? (
+              <InfiniteScroll
+                loadMore={() => props.loadPosts(posts[posts.length - 1].id)}
+                loader={
+                  <LoaderWrapper width={width}>
+                    <Loader
+                      type="Rings"
+                      color="#00BFFF"
+                      height={400}
+                      width={400}
                     />
-                  ))
-                ) : (
-                  <p> Nenhuma publicação encontrada! </p>
-                )
-              ) : (
-                <p>
-                  {" "}
-                  Você não segue ninguém ainda, procure por perfis na busca!{" "}
-                </p>
-              )}
-            </Posts>
-          ) : (
-            <Posts width={width}>
-              {props.createPost ? (
-                <CreatePost refreshPosts={props.refreshPosts} />
-              ) : (
-                ""
-              )}
-              {posts ? (
-                posts.map((post, index) => (
+                  </LoaderWrapper>
+                }
+                hasMore={props.hasMore}
+                pageStart={0}
+                threshold={50}
+              >
+                {posts.map((post, index) => (
                   <Post
                     key={index}
                     {...post}
                     refreshPosts={props.refreshPosts}
                     mylikes={props.mylikes}
                   />
-                ))
+                ))}
+              </InfiniteScroll>
+            ) : timeline ? (
+              followingUsers.length == 0 ? (
+                <LoaderWrapper width={width}>
+                  <p>
+                    Você não segue ninguém ainda, procure por perfis na busca!
+                  </p>
+                </LoaderWrapper>
               ) : (
-                <Loader type="Rings" color="#00BFFF" height={400} width={400} />
-              )}
-            </Posts>
-          )}
+                <LoaderWrapper width={width}>
+                  <p>Nenhuma postagem encontrada!</p>
+                </LoaderWrapper>
+              )
+            ) : (
+              <LoaderWrapper width={width}>
+                <p>Nenhuma postagem encontrada!</p>
+              </LoaderWrapper>
+            )}
+          </Posts>
           {width >= 940 ? (
             <div>
               <Trending />
@@ -251,5 +247,16 @@ const Posts = styled.div`
   & > p {
     font-size: 30px;
     color: #ffffff;
+  }
+`;
+
+const LoaderWrapper = styled.div`
+  width: ${(props) => (props.width > 611 ? "611px" : "100%")};
+  text-align: center;
+
+  & > p {
+    margin-top: 50px;
+    font-size: 25px;
+    color: white;
   }
 `;

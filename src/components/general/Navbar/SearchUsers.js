@@ -12,28 +12,31 @@ export default function SearchUsers(props) {
 
   const { token } = useContext(UserContext);
 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
+    if (inputValue) {
+      const promise = axios.get(
+        `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/search?username=${inputValue}`,
+        config
+      );
 
-    const promise = axios.get(
-      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/search?username=${inputValue}`,
-      config
-    );
+      promise.catch((err) => console.log(err));
+      promise.then((response) => {
+        const users = response.data.users;
+        const following = users.filter((user) => user.isFollowingLoggedUser);
+        const unFollowing = users.filter((user) => !user.isFollowingLoggedUser);
+        const ordenedUsers = following.concat(unFollowing);
 
-    promise.catch((err) => console.log(err));
-    promise.then((response) => {
-      const users = response.data.users;
-      const following = users.filter((user) => user.isFollowingLoggedUser);
-      const unFollowing = users.filter((user) => !user.isFollowingLoggedUser);
-      const ordenedUsers = following.concat(unFollowing);
-
-      setUsers(ordenedUsers);
-    });
+        setUsers(ordenedUsers);
+      });
+    }
   }, [inputValue]);
+
   return (
     <SearchContainer width={props.width} valueSize={inputValue.length}>
       <DebounceInput
