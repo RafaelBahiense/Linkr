@@ -7,6 +7,7 @@ import Trending from "./Trending";
 import Avatar from "../general/Avatar";
 import UserContext from "../../contexts/UserContext";
 import axios from "axios";
+import InfiniteScroll from 'react-infinite-scroller';
 
 export default function TimelineLayout(props) {
 
@@ -19,12 +20,13 @@ export default function TimelineLayout(props) {
         };
     }, []);
 
-    const { id, username, avatar, timeline, posts } = props;
+    const { id, username, avatar} = props.user || {};
+    const { timeline } = props;
     const [following, setFollowing] = useState(false);
     const [disabled, setDisabled] = useState(true);
     const [followingUsers, setFollowingUsers] = useState([]);
 
-    const { token, user } = useContext(UserContext);
+    const { token } = useContext(UserContext);
 
     const config = {
         headers: {
@@ -45,11 +47,10 @@ export default function TimelineLayout(props) {
     }, [id])
 
     function follow() {
-        console.log("Following...");
         setFollowing(true);
 
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/follow`, {}, config);
-        promise.catch(err => {
+        promise.catch(() => {
             setFollowing(false);
             alert("Follow error!");
         });
@@ -57,11 +58,10 @@ export default function TimelineLayout(props) {
     }
 
     function unFollow() {
-        console.log("UnFollowing...");
         setFollowing(false);
 
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/unfollow`, {}, config);
-        promise.catch(err => {
+        promise.catch(() => {
             setFollowing(true);
             alert("Unfollow error!");
         });
@@ -69,49 +69,46 @@ export default function TimelineLayout(props) {
     }
 
     return (
-        <>
             <Container width={width}>
-                {props.userPost && user.id !== id
-                    ?
                     <section>
                         <div>
-                            <Avatar avatar={avatar} nolink />
-                            <h2>{props.title ? props.title : "timeline"}</h2>
-                        </div>
-                        {following ? <ButtonUnFollow disabled={disabled} onClick={() => unFollow()}> Unfollow </ButtonUnFollow> : <ButtonFollow disabled={disabled} onClick={() => follow()}> Follow </ButtonFollow>}
-                    </section>
-                    :
-                    <section>
-                        <div>
-                            <h2>{props.title ? props.title : "timeline"}</h2>
-                        </div>
-                    </section>
-                }
-                <div>
-                    {timeline ?
-                        <Posts width={width}>
-                            {props.createPost ? <CreatePost refreshPosts={props.refreshPosts} /> : ""}
-                            {followingUsers.length > 0 ?
-                                posts ?
-                                    posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes} />)
-                                    :
-                                    <p> Nenhuma publicação encontrada! </p>
-                                :
-                                <p> Você não segue ninguém ainda, procure por perfis na busca! </p>}
-                        </Posts>
-                        :
-                        <Posts width={width}>
-                            {props.createPost ? <CreatePost refreshPosts={props.refreshPosts} /> : ""}
-                            {posts
-                                ? posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes} />)
-                                : <Loader type="Rings" color="#00BFFF" height={400} width={400} />
+                            {id
+                                ? <Avatar avatar={avatar} nolink />
+                                : null
                             }
-                        </Posts>
-                    }
+                            <h2>{props.title ? props.title : "timeline"}</h2>
+                        </div>
+                        {id 
+                            ? following 
+                            ? <ButtonUnFollow disabled={disabled} onClick={() => unFollow()}> Unfollow </ButtonUnFollow> 
+                            : <ButtonFollow disabled={disabled} onClick={() => follow()}> Follow </ButtonFollow>
+                            : null
+                        }
+                    </section>
+                <div>
+                    <Posts width={width}>
+                        {timeline ? <CreatePost refreshPosts={props.refreshPosts} /> : null}
+                        {props.posts == null 
+                            ? <LoaderWrapper width={width}><Loader type="Rings" color="#00BFFF" height={400} width={400} /></LoaderWrapper>
+                            : props.posts.length > 0
+                            ? <InfiniteScroll loadMore={() => props.loadPosts(props.posts[props.posts.length - 1].id)}
+                                              loader={<LoaderWrapper width={width}><Loader type="Rings" color="#00BFFF" height={400} width={400} /></LoaderWrapper>}
+                                              hasMore={props.hasMore}
+                                              pageStart={0}
+                                              threshold={50}
+                              >
+                                {props.posts.map((post, index) => <Post key={index} {...post} refreshPosts={props.refreshPosts} mylikes={props.mylikes}/>)}
+                              </InfiniteScroll>
+                            : timeline 
+                            ? followingUsers.length == 0 
+                            ? <LoaderWrapper width={width}><p>Você não segue ninguém ainda, procure por perfis na busca!</p></LoaderWrapper>
+                            : <LoaderWrapper width={width}><p>Nenhuma postagem encontrada!</p></LoaderWrapper>
+                            : <LoaderWrapper width={width}><p>Nenhuma postagem encontrada!</p></LoaderWrapper>
+                        }
+                    </Posts>
                     {width >= 940 ? <div><Trending /></div> : null}
                 </div>
             </Container>
-        </>
     );
 }
 
@@ -197,5 +194,16 @@ const Posts = styled.div`
     & > p{
         font-size: 30px;
         color: #FFFFFF;
+    }
+`;
+
+const LoaderWrapper = styled.div`
+    width: ${(props) => props.width > 611 ? "611px" : "100%"};
+    text-align: center;
+
+    & > p {
+        margin-top: 50px;
+        font-size: 25px;
+        color: white;
     }
 `;

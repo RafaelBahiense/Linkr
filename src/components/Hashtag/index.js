@@ -13,34 +13,54 @@ const Hashtag = () => {
 
     const history = useHistory();
     const [refresh, setRefresh] = React.useState([]);
+    const [hasMore, setHasMore] = useState(true);
 
     function refreshPosts() {
         setRefresh([...refresh]);
     }
 
-    useEffect(() => {
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
         }
+    }
 
-        const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/hashtags/${hashtag}/posts`, config);
+    function loadPosts (idPost) {
+        if (idPost) {
+            const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/hashtags/${hashtag}/posts?olderThan=${idPost}`, config)
+            request.then((response) => {
+                if(response.data.posts.length > 0) {
+                    setPosts([...posts,...response.data.posts]);
+                } else {
+                    setHasMore(false);
+                }
+            }).catch(() => {
+                alert("Faça login novamente!");
+                history.push("/");
+            })
+        } else {
+            const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/hashtags/${hashtag}/posts`, config)
+            request.then((response) => {
+                posts
+                ? setPosts([...new Set([...response.data.posts, ...posts])])
+                : setPosts([...response.data.posts])
+            }).catch(() => {
+                alert("Faça login novamente!");
+                history.push("/");
+            })
+        }
+    }
 
-        request.then((res) => {
-            setPosts(res.data.posts);
-        }).catch(() => {
-            alert("Faça login novamente!");
-            history.push("/");
-        })
-    }, [hashtag, refresh, token]);
+    useEffect(() => {
+        loadPosts();
+    }, [refresh]);
 
     useInterval(() => {
         refreshPosts();
     }, 15000)
 
     return (
-        <TimelineLayout posts={posts} title={`#${hashtag}`} refreshPosts={refreshPosts} createPost={false} />
+        <TimelineLayout posts={posts} title={`#${hashtag}`} refreshPosts={refreshPosts} loadPosts={loadPosts} hasMore={hasMore}/>
     );
 }
 
