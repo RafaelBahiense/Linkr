@@ -15,6 +15,7 @@ export default function ModalScreen(props) {
 	const customStyles = {
         overlay: {zIndex: 1000}
 	};
+    const { modalIsOpen, setIsOpen, action, doing, title, cancelText, continueText, link, preview, width } = props;
 
 	Modal.setAppElement('.root');
 
