@@ -15,7 +15,7 @@ const StyledInput = styled.input`
     cursor: ${props => props.cursor ? props.cursor : 'auto'};
 
 	&::placeholder {
-		color: #d4d4d4;
+		color: ${props => props.pColor ? props.pColor : "#d4d4d4"};
 	}
 
 	&:disabled {
@@ -24,7 +24,7 @@ const StyledInput = styled.input`
 	}
 
 	&:focus {
-		outline-color: #52b6ff;
+		outline: ${props => props.outline ? props.outline : "1px solid #52b6ff"};
 	}
 `;
 

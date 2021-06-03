@@ -12,6 +12,7 @@ const StyledContainer = styled.div`
 	height: ${(props) => (props.height ? props.height : '100%')};
 	background-color: ${(props) => (props.bgColor ? props.bgColor : 'transparent')};
 	border-radius: ${(props) => (props.radius ? props.radius : '0')};
+	border: ${(props) => (props.border ? props.border : 'none')};
 	padding: ${(props) => (props.padding ? props.padding : '0')};
 	margin: ${(props) => (props.margin ? props.margin : '0')};
 	cursor: ${(props) => (props.cursor ? props.cursor : 'auto')};

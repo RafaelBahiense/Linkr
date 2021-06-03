@@ -11,7 +11,9 @@ import axios from 'axios';
 import ModalScreen from './Modal';
 import ReactHashtag from 'react-hashtag';
 import Shares from './Shares';
+import CommentsIcon from './Comments/CommentsIcon';
 import Comments from './Comments';
+import CommentWrite from './Comments/CommentWrite';
 import Message from '../general/Message';
 import getYouTubeID from 'get-youtube-id';
 
@@ -25,6 +27,7 @@ export default function Post(props) {
 	const myPost = props.user.id === user.id;
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [previewIsOpen, setPreviewIsOpen] = useState(false);
+	const [comments, setComments] = useState(false);
 	const inputElement = useRef(null);
 	const reposted = props.repostedBy;
 
@@ -102,10 +105,11 @@ export default function Post(props) {
 					<FaShare style={{ color: 'white', marginRight: 6 }} />
 					<Message
 						color="white"
-						text={`Re-posted by ${props.repostedBy.id === user.id
-							? 'you'
-							: props.repostedBy.username
-							}`}
+						text={`Re-posted by ${
+							props.repostedBy.id === user.id
+								? 'you'
+								: props.repostedBy.username
+						}`}
 					/>
 				</RepostContainer>
 			) : null}
@@ -134,7 +138,10 @@ export default function Post(props) {
 				<div>
 					<Avatar id={props.user.id} avatar={props.user.avatar} />
 					<Likes {...props} mylikes={mylikes} />
-					<Comments commentCount={props.commentCount} />
+					<CommentsIcon
+						commentCount={props.commentCount}
+						onClick={() => setComments(!comments)}
+					/>
 					<Shares
 						repostCount={props.repostCount}
 						config={config}
@@ -197,6 +204,11 @@ export default function Post(props) {
 					</a>
 				</PostContentContainer>
 			</PostContainer>
+			{comments ? (
+				<CommentsContainer>
+					<Comments postOwner={props.user} config={config} id={props.id} clicked={comments} />
+				</CommentsContainer>
+			) : null}
 		</div>
 	);
 }
@@ -205,6 +217,7 @@ const PostContainer = styled.div`
 	font-family: 'Lato', sans-serif;
 	background: #171717;
 	display: flex;
+	z-index: 2;
 	justify-content: space-between;
 	height: auto;
 	padding: 9px 18px 15px 15px;
@@ -223,8 +236,18 @@ const RepostContainer = styled(PostContainer)`
 	background-color: #1e1e1e;
 	position: absolute;
 	top: -50px;
-    height: 100px;
+	height: 100px;
 	z-index: -10;
+`;
+
+const CommentsContainer = styled(PostContainer)`
+	justify-content: start;
+	flex-flow: column nowrap;
+	background-color: #1e1e1e;
+	position: relative;
+	padding-top: 50px;
+	margin-top: -60px;
+	z-index: 1;
 `;
 
 const PostUserName = styled.div`
