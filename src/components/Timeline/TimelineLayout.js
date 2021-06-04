@@ -132,6 +132,7 @@ export default function TimelineLayout(props) {
                 {posts.map((post, index) => (
                   <Post
                     key={index}
+                    width={width}
                     {...post}
                     refreshPosts={props.refreshPosts}
                     mylikes={props.mylikes}

@@ -16,6 +16,7 @@ import Comments from './Comments';
 import CommentWrite from './Comments/CommentWrite';
 import Message from '../general/Message';
 import getYouTubeID from 'get-youtube-id';
+import Preview from "./Preview";
 
 export default function Post(props) {
 	const { text, link, refreshPosts, mylikes } = props;
@@ -128,11 +129,11 @@ export default function Post(props) {
 					''
 				)}
 				{previewIsOpen 
-					? 	<ModalScreen
+					? 	<Preview
+							width={props.width}
 							link={link}
-							setIsOpen={setPreviewIsOpen}
-							modalIsOpen={previewIsOpen}
-							preview
+							setPreviewIsOpen={setPreviewIsOpen}
+							previewIsOpen={previewIsOpen}
 						/>
 					: null}
 				<div>
