@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import UserContext from '../../contexts/UserContext';
 import Avatar from '../general/Avatar';
-import Container from '../general/Container';
 import Message from '../general/Message';
 import { FiMapPin } from 'react-icons/fi';
 
@@ -11,14 +10,29 @@ export default function CreatePost({ refreshPosts }) {
 	const [text, setText] = useState('');
 	const [link, setLink] = useState('');
 	const [locationEnabled, setLocationEnabled] = useState(false);
+	const [location, setLocation] = useState({});
 	const [publishing, setPublishing] = useState(false);
 	const { user, token } = useContext(UserContext);
 
-  const toggleLocation = e => {
-    e.preventDefault();
+	const toggleLocation = (e) => {
+		e.preventDefault();
 
-    setLocationEnabled(!locationEnabled);
-  }
+		if (!'geolocation' in navigator) {
+			alert('O navegador não tem suporte à localização');
+			setLocationEnabled(false);
+		} else if (!locationEnabled) {
+			navigator.geolocation.getCurrentPosition((pos) => {
+				setLocation(
+          {
+					  latitude: pos.coords.latitude,
+					  longitude: pos.coords.longitude,
+				  }
+        );
+			});
+		}
+
+		setLocationEnabled(!locationEnabled);
+	};
 
 	function createPost(e) {
 		e.preventDefault();
@@ -34,6 +48,8 @@ export default function CreatePost({ refreshPosts }) {
 			text: text,
 			link: link,
 		};
+
+		if (locationEnabled) data.geolocation = location;
 
 		const response = axios.post(
 			`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts`,
@@ -75,19 +91,21 @@ export default function CreatePost({ refreshPosts }) {
 						type="text"
 						placeholder="Muito irado esse link falando de #javascript"
 					></input>
-					<div style={{ flexFlow: 'row nowrap', alignItems: "center" }}>
+					<div
+						style={{ flexFlow: 'row nowrap', alignItems: 'center' }}
+					>
 						<div
-              onClick={toggleLocation}
+							onClick={toggleLocation}
 							style={{
 								flexFlow: 'row nowrap',
-								color: locationEnabled ? "#238700" : "#949494",
+								color: locationEnabled ? '#238700' : '#949494',
 								fontWeight: 300,
-                width: 150
+								width: 150,
 							}}
 						>
 							<FiMapPin style={{ marginRight: 5 }} />
 							<Message
-                color={locationEnabled ? "#238700" : "#949494"}
+								color={locationEnabled ? '#238700' : '#949494'}
 								text={`Localização ${
 									locationEnabled ? '' : 'des'
 								}ativada`}
@@ -202,7 +220,7 @@ const CreatePostContainer = styled.div`
 			}
 
 			form {
-        width: 100%;
+				width: 100%;
 
 				input:last-of-type {
 					height: 66px;
