@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
+import Loader from "react-loader-spinner";
 
 import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
 
 export default function Trending () {
-    const [trending, setTrending] = React.useState([]);
+    const [trending, setTrending] = React.useState(null);
     const {token} = useContext(UserContext);
     const [hashtag, setHashtag] = React.useState(null);
 
@@ -39,7 +40,20 @@ export default function Trending () {
         <TrendingWrapper>
             <Title>trending</Title>
             <Bar/>
-            {trending.map((hashtag, index) => <Link key={index} to={`/hashtag/${hashtag.name}`}><Hashtag>{`# ${hashtag.name}`}</Hashtag></Link> )}
+            {trending 
+            ? trending.map((hashtag, index) =>  <Link key={index} to={`/hashtag/${hashtag.name}`}>
+                                                    <Hashtag>{`# ${hashtag.name}`}</Hashtag>
+                                                </Link> 
+                          )
+            :   <LoaderWrapper>
+                    <Loader
+                    type="Rings"
+                    color="#00BFFF"
+                    height={290}
+                    width={301}
+                    />
+                </LoaderWrapper>
+            }
             <form onSubmit={(e) => editPost(e)}>
                 <input placeholder={"type a hashtag"} 
                     value={hashtag}
@@ -121,4 +135,11 @@ const Hashtag = styled.p`
     font-weight: bold;
     font-size: 19px;
     color: #FFFFFF;
+`;
+
+const LoaderWrapper = styled.div`
+  width: 100%;
+  height: 290px;
+  text-align: center;
+
 `;
