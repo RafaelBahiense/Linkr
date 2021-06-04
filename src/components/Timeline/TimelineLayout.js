@@ -127,7 +127,7 @@ export default function TimelineLayout(props) {
                 }
                 hasMore={props.hasMore}
                 pageStart={0}
-                threshold={50}
+                threshold={150}
               >
                 {posts.map((post, index) => (
                   <Post
