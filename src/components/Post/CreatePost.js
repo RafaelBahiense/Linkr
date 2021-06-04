@@ -101,6 +101,7 @@ export default function CreatePost({ refreshPosts }) {
 								color: locationEnabled ? '#238700' : '#949494',
 								fontWeight: 300,
 								width: 150,
+								cursor: "pointer"
 							}}
 						>
 							<FiMapPin style={{ marginRight: 5 }} />
