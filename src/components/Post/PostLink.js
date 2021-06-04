@@ -52,6 +52,7 @@ const YoutubeContainer = styled.div`
 `;
 
 const PostLinkContainer = styled.div`
+    cursor: pointer;
     width: 100%;
     height: 115px;
     display: flex;
