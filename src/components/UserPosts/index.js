@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 import useInterval from '@use-it/interval';
 
 import TimelineLayout from "../Timeline/TimelineLayout";
@@ -15,6 +15,7 @@ const UserPosts = () => {
     const history = useHistory();
     const [refresh, setRefresh] = React.useState([]);
     const [hasMore, setHasMore] = useState(true);
+    const initialRender = useRef(true);
 
     function refreshPosts() {
         setRefresh([...refresh]);
@@ -48,7 +49,7 @@ const UserPosts = () => {
                 const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/posts`, config)
                 request.then((response) => {
                     posts
-                    ? setPosts([...new Set(...response.data.posts, ...posts)])
+                    ? setPosts([...response.data.posts, ...posts].filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i))
                     : setPosts([...response.data.posts])
                 }).catch((res) => {
                     alert("Faça login novamente!");
@@ -63,7 +64,16 @@ const UserPosts = () => {
 
     useEffect(() => {
         loadPosts();
-    }, [id, refresh]);
+    }, [refresh]);
+
+    useEffect(() => {
+        if (initialRender.current) {
+          initialRender.current = false;
+        } else {
+            setPosts(null);
+            refreshPosts();
+        }
+    }, [id]);
 
     useInterval(() => {
         refreshPosts();
@@ -74,6 +84,7 @@ const UserPosts = () => {
                         user={user}
                         title={user ? `${user.username}'s posts` : "Loading user"}
                         userPost={true}
+                        refreshPosts={refreshPosts}
                         loadPosts={loadPosts}
                         hasMore={hasMore}
         />

@@ -41,7 +41,7 @@ export default function MyLikes () {
             const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/liked`, config)
             request.then((response) => {
                 posts
-                ? setPosts([...new Set([...response.data.posts, ...posts])])
+                ? setPosts([...response.data.posts, ...posts].filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i))
                 : setPosts([...response.data.posts])
             }).catch(() => {
                 alert("Faça login novamente!");

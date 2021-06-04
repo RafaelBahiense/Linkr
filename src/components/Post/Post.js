@@ -16,6 +16,7 @@ import Comments from './Comments';
 import Message from '../general/Message';
 import LocationButton from "./LocationButton";
 import getYouTubeID from 'get-youtube-id';
+import Preview from "./Preview";
 
 export default function Post(props) {
 	const { text, link, refreshPosts, mylikes } = props;
@@ -26,6 +27,7 @@ export default function Post(props) {
 	const [newText, setNewText] = useState('');
 	const myPost = props.user.id === user.id;
 	const [modalIsOpen, setIsOpen] = useState(false);
+	const [previewIsOpen, setPreviewIsOpen] = useState(false);
 	const [comments, setComments] = useState(false);
 	const inputElement = useRef(null);
 	const reposted = props.repostedBy;
@@ -127,6 +129,14 @@ export default function Post(props) {
 				) : (
 					''
 				)}
+				{previewIsOpen 
+					? 	<Preview
+							width={props.width}
+							link={link}
+							setPreviewIsOpen={setPreviewIsOpen}
+							previewIsOpen={previewIsOpen}
+						/>
+					: null}
 				<div>
 					<Avatar id={props.user.id} avatar={props.user.avatar} />
 					<Likes {...props} mylikes={mylikes} />
@@ -192,7 +202,7 @@ export default function Post(props) {
 							</ReactHashtag>
 						)}
 					</PostContent>
-					<a href={link} target="_blank">
+					<a onClick={() => setPreviewIsOpen(true)}>
 						<PostLink youtubeId={youtubeId} {...props} />
 					</a>
 				</PostContentContainer>

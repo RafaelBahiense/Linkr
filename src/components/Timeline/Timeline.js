@@ -40,7 +40,7 @@ export default function Timeline() {
             const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts`, config)
             request.then((response) => {
                 otherUsersPosts
-                ? setOtherUsersPosts([...new Set([...response.data.posts.filter(post => post.user.id !== user.id), ...otherUsersPosts])])
+                ? setOtherUsersPosts([...response.data.posts.filter(post => post.user.id !== user.id), ...otherUsersPosts].filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i))
                 : setOtherUsersPosts([...response.data.posts.filter(post => post.user.id !== user.id)])
             }).catch(() => {
                 alert("Faça login novamente!");

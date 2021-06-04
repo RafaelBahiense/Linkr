@@ -127,11 +127,12 @@ export default function TimelineLayout(props) {
                 }
                 hasMore={props.hasMore}
                 pageStart={0}
-                threshold={50}
+                threshold={150}
               >
                 {posts.map((post, index) => (
                   <Post
                     key={index}
+                    width={width}
                     {...post}
                     refreshPosts={props.refreshPosts}
                     mylikes={props.mylikes}
