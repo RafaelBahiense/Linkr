@@ -63,7 +63,7 @@ const Hashtag = () => {
             setPosts(null);
             refreshPosts();
         }
-      }, [hashtag]);
+    }, [hashtag]);
 
     useInterval(() => {
         refreshPosts();

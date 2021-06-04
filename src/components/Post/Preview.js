@@ -44,7 +44,13 @@ export default function Preview(props) {
                 style={customStyles}
             >
                         <Buttons>
-                            <Open onClick={() => window.open(link,'_blank')}>Open in new tab</Open>
+                            <Open onClick={() => {
+                                                    window.open(link,'_blank'); closeModal();
+                                                 }
+                                          }
+                            >
+                                Open in new tab
+                            </Open>
                             <AiOutlineClose style={{"font-size": "20px"}} onClick={closeModal}/>
                         </Buttons>
                         <iframe type={"text/html"} width={"100%"} height={"100%"} src={link}></iframe>

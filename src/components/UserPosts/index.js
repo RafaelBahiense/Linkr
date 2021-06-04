@@ -73,7 +73,7 @@ const UserPosts = () => {
             setPosts(null);
             refreshPosts();
         }
-      }, [id]);
+    }, [id]);
 
     useInterval(() => {
         refreshPosts();
