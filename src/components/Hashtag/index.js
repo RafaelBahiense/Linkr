@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
-import React, { useEffect, useContext, useState } from "react";
+import React, { useRef, useEffect, useContext, useState } from "react";
 import useInterval from '@use-it/interval';
 
 import TimelineLayout from "../Timeline/TimelineLayout";
@@ -14,6 +14,7 @@ const Hashtag = () => {
     const history = useHistory();
     const [refresh, setRefresh] = React.useState([]);
     const [hasMore, setHasMore] = useState(true);
+    const initialRender = useRef(true);
 
     function refreshPosts() {
         setRefresh([...refresh]);
@@ -42,7 +43,7 @@ const Hashtag = () => {
             const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/hashtags/${hashtag}/posts`, config)
             request.then((response) => {
                 posts
-                ? setPosts([...new Set([...response.data.posts, ...posts])])
+                ? setPosts([...response.data.posts, ...posts].filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i))
                 : setPosts([...response.data.posts])
             }).catch(() => {
                 alert("Faça login novamente!");
@@ -54,6 +55,15 @@ const Hashtag = () => {
     useEffect(() => {
         loadPosts();
     }, [refresh]);
+
+    useEffect(() => {
+        if (initialRender.current) {
+          initialRender.current = false;
+        } else {
+            setPosts(null);
+            loadPosts();
+        }
+      }, [hashtag]);
 
     useInterval(() => {
         refreshPosts();
