@@ -48,7 +48,7 @@ const UserPosts = () => {
                 const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/posts`, config)
                 request.then((response) => {
                     posts
-                    ? setPosts([...new Set(...response.data.posts, ...posts)])
+                    ? setPosts([...response.data.posts, ...posts].filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i))
                     : setPosts([...response.data.posts])
                 }).catch((res) => {
                     alert("Faça login novamente!");
