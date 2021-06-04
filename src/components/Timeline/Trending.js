@@ -29,7 +29,7 @@ export default function Trending () {
         })
     },[]);
 
-    function editPost(e) {
+    function goToHashtag(e) {
         e.preventDefault();
         if (hashtag) {
             history.push(`/hashtag/${hashtag}`)
@@ -54,7 +54,7 @@ export default function Trending () {
                     />
                 </LoaderWrapper>
             }
-            <form onSubmit={(e) => editPost(e)}>
+            <form onSubmit={(e) => goToHashtag(e)}>
                 <input placeholder={"type a hashtag"} 
                     value={hashtag}
                     onChange={(e) => setHashtag(e.target.value)}

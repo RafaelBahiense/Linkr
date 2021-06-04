@@ -12,7 +12,7 @@ const Hashtag = () => {
     const { hashtag } = useParams();
 
     const history = useHistory();
-    const [refresh, setRefresh] = React.useState([]);
+    const [refresh, setRefresh] = useState([]);
     const [hasMore, setHasMore] = useState(true);
     const initialRender = useRef(true);
 
@@ -61,7 +61,7 @@ const Hashtag = () => {
           initialRender.current = false;
         } else {
             setPosts(null);
-            loadPosts();
+            refreshPosts();
         }
       }, [hashtag]);
 
