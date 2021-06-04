@@ -13,8 +13,8 @@ import ReactHashtag from 'react-hashtag';
 import Shares from './Shares';
 import CommentsIcon from './Comments/CommentsIcon';
 import Comments from './Comments';
-import CommentWrite from './Comments/CommentWrite';
 import Message from '../general/Message';
+import LocationButton from "./LocationButton";
 import getYouTubeID from 'get-youtube-id';
 
 export default function Post(props) {
@@ -29,6 +29,7 @@ export default function Post(props) {
 	const [comments, setComments] = useState(false);
 	const inputElement = useRef(null);
 	const reposted = props.repostedBy;
+	const location = props.geolocation;
 
 	const youtubeId = getYouTubeID(link);
 
@@ -145,13 +146,14 @@ export default function Post(props) {
 						<Link to={`/user/${props.user.id}`}>
 							{props.user.username}
 						</Link>
+						{location ? <LocationButton geolocation={location} user={props.user} /> : null}
 						{myPost ? (
-							<div>
+							<div style={{position: "absolute", right: 0}}>
 								<TiPencil onClick={() => editingPost()} />
 								<TiTrash onClick={() => setIsOpen(true)} />
 							</div>
 						) : (
-							<div></div>
+							null
 						)}
 					</PostUserName>
 					<PostContent>
@@ -242,6 +244,7 @@ const CommentsContainer = styled(PostContainer)`
 `;
 
 const PostUserName = styled.div`
+	position: relative;
 	span {
 		font-weight: 400;
 		font-size: 17px;
@@ -260,7 +263,6 @@ const PostUserName = styled.div`
 	color: #ffffff;
 	width: 100%;
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
 
 	@media (min-width: 615px) {

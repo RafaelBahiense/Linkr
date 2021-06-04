@@ -47,6 +47,22 @@ body {
     outline: none;
 }
 
+.modal.location {
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 20px;
+    font-family: "Oswald", sans-serif;
+    position: relative;
+}
+
+.modal.location div{
+    margin-top: 0;
+}
+
+.modal.location button{
+    width: 20px;
+}
+
 .modal h2{
     text-align: center;
     font-size: 34px;
